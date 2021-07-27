@@ -2,7 +2,7 @@ import React from 'react';
 
 let defaultBanner = {
     "title":"Title",
-    "backgroundImage":"https://github.com/LH-Lawliet/LMenu/blob/main/static/interaction_bgd.png?raw=true"
+    "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/LMenu/main/static/interaction_bgd.png"
 }
 
 
