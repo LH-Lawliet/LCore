@@ -7,47 +7,17 @@ import ArrowsUpAndDown from './ArrowsUpAndDown.js'
 
 
 
-let testMenu = {
+let defaultMenu = {
     "width": "20vw",
+    "padding": "2vh",
     "banner": {
-        "title":"Lawliet",
+        "title":"Title",
+        "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/LMenu/main/static/interaction_bgd.png",
     },
-    "subTitle":"Il est trop fort",
+    "subTitle": "Subtitle",
     "maxButtons":10,
-    "buttons":[
-        {"text": "button 1", "rightText": "150 $"},
-        {"text": "button 2", selected:true},
-        {"text": "button 3", "rightText": "hazeuyagzeyaze"},
-        {"text": "button 4", "rightText": " $"},
-        {"text": "button 5", "rightText": "2 $"},
-        {"text": "button 6"},
-        {"text": "button 7"},
-        {"text": "button 8"},
-        {"text": "button 9"},
-        {"text": "button 10"},
-        {"text": "button 11"},
-        {"text": "button 12"},
-        {"text": "button 13"},
-        {"text": "button 14"},
-        {"text": "button 15"},
-        {"text": "button 16"},
-        {"text": "button 17"},
-        {"text": "button 18"},
-        {"text": "button 19"},
-        {"text": "button 20"},
-        {"text": "button 21"},
-        {"text": "button 22"},
-        {"text": "button 23"},
-        {"text": "button 24"},
-        {"text": "button 25"},
-        {"text": "button 26"},
-        {"text": "button 27"},
-        {"text": "button 28"},
-        {"text": "button 29"},
-        {"text": "button 30"},
-        {"text": "button 31"},
-        {"text": "button 32"},
-    ]
+    "currentButton":0,
+    "buttons":[]
 }
 
 
@@ -56,8 +26,8 @@ export default class Menu extends React.Component {
     constructor () {
         super();
         this.state = {
-            menuData: testMenu,
-            currentButton: 16
+            menuData: defaultMenu,
+            showMenu: false
         };
 
         this.createMenu = this.createMenu.bind(this)
@@ -65,6 +35,8 @@ export default class Menu extends React.Component {
         this.getCurrentButton = this.getCurrentButton.bind(this)
         this.menuGoUp = this.menuGoUp.bind(this)
         this.menuGoDown = this.menuGoDown.bind(this)
+        this.isVisible = this.isVisible.bind(this)
+        this.setVisible = this.setVisible.bind(this)
     };
 
     componentDidMount() {
@@ -94,31 +66,35 @@ export default class Menu extends React.Component {
     }
 
     menuGoUp() {
-        let next = this.state.currentButton-1
+        let next = this.state.menuData.currentButton-1
         if (next<0) {
             next = this.state.menuData.buttons.length-1
         }
-        this.setState({currentButton: next})
+        let menuData = this.state.menuData
+        menuData.currentButton = next
+        this.setState({menuData: this.state.menuData})
     }
 
     menuGoDown() {
-        let next = this.state.currentButton+1
+        let next = this.state.menuData.currentButton+1
         if (next >= this.state.menuData.buttons.length) {
             next = 0
         }
-        this.setState({currentButton: next})
+        let menuData = this.state.menuData
+        menuData.currentButton = next
+        this.setState({menuData: this.state.menuData})
+    }
+
+    isVisible() {
+        return this.state.showMenu
+    }
+
+    setVisible(visible) {
+        this.setState({showMenu:visible})
     }
 
     getCurrentButton() {
-        return this.state.currentButton
-    }
-
-    menuPadding() {
-        return this.state.menuData.padding || "2vh"
-    }
-
-    menuWidth() {
-        return this.state.menuData.width || "20vw"
+        return this.state.menuData.currentButton
     }
 
     setMenuData(data) {
@@ -130,56 +106,70 @@ export default class Menu extends React.Component {
     }
 
     createMenu(data) {
+        if (!this.isVisible) {
+            return
+        }
         let menu = []
 
         menu.push(<Banner key={"banner"} data={data.banner}/>)
         menu.push(<Subtitle key={"SubTitle"} subtitle={data.subTitle} buttons={data.buttons} getSelectedButton={this.getCurrentButton}/>)
 
 
-        let start = 0
-        let end = data.maxButtons
+        if ((data.buttons) && (data.buttons.length !== 0)) {
+            let start = 0
+            let end = data.maxButtons
 
-        if (end-2<this.state.currentButton) {
-            start = this.state.currentButton-(data.maxButtons-2)
-            end = this.state.currentButton+2
-        }
-
-        if (end>data.buttons.length-1) {
-            end = data.buttons.length
-            start = end-data.maxButtons
-        }
-
-        for (let n = start; n < end; n++) {
-            let k = n+""
-
-            if (n === this.state.currentButton) {
-                data.buttons[k].selected = true
-            } else {
-                data.buttons[k].selected = false
+            if (end>data.buttons.length) {
+                end = data.buttons.length
             }
 
-            
-            data.buttons[k].id = n
-            if (!data.buttons.type) {
-                menu.push(<Button key={n} button={data.buttons[k]}/>)
+            if (end-2<data.currentButton) {
+                start = data.currentButton-(data.maxButtons-2)
+                end = data.currentButton+2
+            }
+
+            if (end>data.buttons.length-1) {
+                end = data.buttons.length
+                start = end-data.maxButtons
+            }
+
+            if (start<0) {
+                start = 0
+            }
+
+            if (end<0) {
+                end = 0
+            }
+
+            for (let n = start; n < end; n++) {
+                let k = n+""
+
+                if (n === data.currentButton) {
+                    data.buttons[k].selected = true
+                } else {
+                    data.buttons[k].selected = false
+                }
+
+                
+                data.buttons[k].id = n
+                if (!data.buttons.type) {
+                    menu.push(<Button key={n} button={data.buttons[k]}/>)
+                }
+            }
+
+            if (data.buttons.length>data.maxButtons) {
+                menu.push(<ArrowsUpAndDown key={"ArrowsUpAndDown"}/>)
             }
         }
-
-        console.log(data.buttons.length,data.maxButtons)
-        if (data.buttons.length>data.maxButtons) {
-            console.log("prompt arrows")
-            menu.push(<ArrowsUpAndDown key={"ArrowsUpAndDown"}/>)
-        }
-
+        
         return menu
     }
 
     render() {
-        let menu = this.createMenu(this.getMenuData())
-        let padding = this.menuPadding()
-        let width = this.menuWidth()
+        let menuData = this.getMenuData()
+        let menu = this.createMenu(menuData)
         return (      
-            <div id="Menu" style={{"padding":padding, "width":width}}>{menu}</div>
+            <div id="Menu" style={{"padding":menuData.padding, "width":menuData.width}}>{menu}</div>
         )
     }
 }

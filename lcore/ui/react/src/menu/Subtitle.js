@@ -5,8 +5,8 @@ export default class Subtitle extends React.Component {
     constructor (data) {
         super(data);
         this.state = {
-            buttons: data.buttons || [],
-            subtitleText: data.subtitle || "Subtitle",
+            buttons: data.buttons,
+            subtitleText: data.subtitle,
         };
         this.getSelectedButton = data.getSelectedButton
         this.getSubtitle = this.getSubtitle.bind(this)
