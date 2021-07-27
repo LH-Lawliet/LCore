@@ -9,8 +9,5 @@ Citizen.CreateThreadNow(function ()
 end)
 
 function debug:CopyToClipboard(text)
-    SetNuiFocus(true, false)
     SendNUIMessage({copyText = text})
-    Wait(1000)
-    SetNuiFocus(false, false)
 end

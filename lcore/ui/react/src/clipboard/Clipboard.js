@@ -8,9 +8,10 @@ export default class ClipboardInput extends React.Component {
             visibility:"hidden"
         };
         this.copyToClipboard = this.copyToClipboard.bind(this);
+        let copyToClipboard = this.copyToClipboard
         window.addEventListener('message', function(event) {
             if (event.data.copyText) {
-                this.copyToClipboard(event.data.copyText);
+                copyToClipboard(event.data.copyText);
             }
         });
     };
