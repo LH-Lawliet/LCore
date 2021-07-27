@@ -1,0 +1,4 @@
+config = {
+    debug = 1,
+}
+
