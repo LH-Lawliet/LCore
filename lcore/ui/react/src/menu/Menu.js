@@ -43,9 +43,12 @@ export default class Menu extends React.Component {
         let setMenuData = this.setMenuData
         let menuGoUp = this.menuGoUp
         let menuGoDown = this.menuGoDown
+        let isVisible = this.isVisible
         window.addEventListener('message', function(event) {
             if (event.action && event.action === "createMenu") {
-                setMenuData(event.data)
+                if (!isVisible()) {
+                    setMenuData(event.data, true)
+                }
             }
             if (event.action && event.action === "menuGoUp") {
                 menuGoUp()
@@ -97,8 +100,12 @@ export default class Menu extends React.Component {
         return this.state.menuData.currentButton
     }
 
-    setMenuData(data) {
-        this.setState({menuData:data})
+    setMenuData(data, forceVisible) {
+        if (forceVisible) {
+            this.setState({menuData:data, showMenu:true})
+        } else {
+            this.setState({menuData:data})
+        }
     }
 
     getMenuData() {
@@ -106,7 +113,7 @@ export default class Menu extends React.Component {
     }
 
     createMenu(data) {
-        if (!this.isVisible) {
+        if (!this.isVisible()) {
             return
         }
         let menu = []
