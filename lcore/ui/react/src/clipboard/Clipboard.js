@@ -29,7 +29,7 @@ export default class ClipboardInput extends React.Component {
 
     render() {
         return (      
-            <input type="text" value="" id="textToCopy" style={{visibility:this.state.visibility}}></input>
+            <input type="text" defaultValue="" id="textToCopy" style={{visibility:this.state.visibility}}></input>
         )
     }
 }

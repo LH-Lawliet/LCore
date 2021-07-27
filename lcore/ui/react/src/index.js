@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ClipboardInput from './clipboard/Clipboard.js'
-import WIPAlert from './wipAlert/WIPAlert.js'
+import App from './App.js'
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>
-      <ClipboardInput/>
-      <WIPAlert/>
-    </div>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
