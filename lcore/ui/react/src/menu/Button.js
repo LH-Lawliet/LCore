@@ -35,10 +35,10 @@ export default class Subtitle extends React.Component {
         }
 
         if (this.state.buttonData.text) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"}>{this.state.buttonData.text}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
         }
         if (this.state.buttonData.rightText) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={className+" menuButtonRightText"}>{this.state.buttonData.rightText}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={className+" menuButtonRightText"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
         }
         return button
     }

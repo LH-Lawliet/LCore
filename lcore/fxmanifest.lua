@@ -29,6 +29,8 @@ client_scripts {
 
     'utils/client.lua',
 
+    'ui/menu.lua',
+
     'debug/client.lua',
 
     'player/client.lua',

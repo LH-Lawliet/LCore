@@ -11,9 +11,9 @@ function utils:round(number, decimals)
 end
 
 
-function utils:copyObj(obj)
+function utils:copy(obj)
     if type(obj) ~= 'table' then return obj end
     local res = {}
-    for k, v in pairs(obj) do res[copy1(k)] = copy1(v) end
+    for k, v in pairs(obj) do res[self:copy(k)] = self:copy(v) end
     return res
-  end
+end

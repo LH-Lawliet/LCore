@@ -21,6 +21,21 @@ let defaultMenu = {
 }
 
 
+function recursiveAssign(element1,element2) {
+    for (let k in element2) {
+        if (typeof element2[k] === "object") {
+            if (element1[k] && (typeof element1[k] === "object")) {
+                recursiveAssign(element1[k],element2[k])
+            } else {
+                element1[k] = element2[k]
+            }
+        } else {
+            element1[k] = element2[k]
+        }
+    }
+}
+
+
 export default class Menu extends React.Component {
     state = {};
     constructor () {
@@ -31,6 +46,7 @@ export default class Menu extends React.Component {
         };
 
         this.createMenu = this.createMenu.bind(this)
+        this.setMenuData = this.setMenuData.bind(this)
         this.getMenuData = this.getMenuData.bind(this)
         this.getCurrentButton = this.getCurrentButton.bind(this)
         this.menuGoUp = this.menuGoUp.bind(this)
@@ -40,20 +56,22 @@ export default class Menu extends React.Component {
     };
 
     componentDidMount() {
+        console.log("menu nui side, listen for event")
         let setMenuData = this.setMenuData
         let menuGoUp = this.menuGoUp
         let menuGoDown = this.menuGoDown
         let isVisible = this.isVisible
         window.addEventListener('message', function(event) {
-            if (event.action && event.action === "createMenu") {
+            if (event.data.action && event.data.action === "setMenu") {
+                console.log(event)
                 if (!isVisible()) {
-                    setMenuData(event.data, true)
+                    setMenuData(event.data.menuData, true)
                 }
             }
-            if (event.action && event.action === "menuGoUp") {
+            if (event.data.action && event.data.action === "menuGoUp") {
                 menuGoUp()
             }
-            if (event.action && event.action === "menuGoDown") {
+            if (event.data.action && event.data.action === "menuGoDown") {
                 menuGoDown()
             }
         });
@@ -102,7 +120,9 @@ export default class Menu extends React.Component {
 
     setMenuData(data, forceVisible) {
         if (forceVisible) {
-            this.setState({menuData:data, showMenu:true})
+            let menu = Object.assign({}, defaultMenu)
+            recursiveAssign(menu,data)
+            this.setState({menuData:menu, showMenu:true})
         } else {
             this.setState({menuData:data})
         }
@@ -116,6 +136,9 @@ export default class Menu extends React.Component {
         if (!this.isVisible()) {
             return
         }
+
+        console.log("menuData : ",data)
+        
         let menu = []
 
         menu.push(<Banner key={"banner"} data={data.banner}/>)
