@@ -22,7 +22,7 @@ function notificationHandler:create(data)
         BeginTextCommandThefeedPost("PS_UPDATE")
         AddTextComponentInteger(data.newStatLevel)
 
-        EndTextCommandThefeedPostStats(data.title or "", 14, data.newStatLevel, data.oldStatLevel or data.oldStatLevel, true, data.icon or "CHAR_DEFAULT", data.icon or "CHAR_DEFAULT")
+        EndTextCommandThefeedPostStats(data.title or "", 14, data.newStatLevel, data.oldStatLevel or data.oldStatLevel, data.flash or false, data.icon or "CHAR_DEFAULT", data.icon or "CHAR_DEFAULT")
     else
         BeginTextCommandThefeedPost("STRING")
 
@@ -35,9 +35,9 @@ function notificationHandler:create(data)
 
         if data.icon or data.iconType or data.title or data.subTitle or data.duration or data.clanTag then
             if not data.clanTag then
-                EndTextCommandThefeedPostMessagetextTu(data.icon or "CHAR_DEFAULT", data.icon or "CHAR_DEFAULT", data.flash or true, data.iconType or 0, data.title or "", data.subTitle or "", data.duration or 1.0)
+                EndTextCommandThefeedPostMessagetextTu(data.icon or "CHAR_DEFAULT", data.icon or "CHAR_DEFAULT", data.flash or false, data.iconType or 0, data.title or "", data.subTitle or "", data.duration or 1.0)
             else
-                EndTextCommandThefeedPostMessagetextWithCrewTag(data.icon, data.icon, data.flash or true, data.iconType or 0, data.title or "", data.subTitle or "", data.duration or 1.0, "___"..data.clanTag)
+                EndTextCommandThefeedPostMessagetextWithCrewTag(data.icon, data.icon, data.flash or false, data.iconType or 0, data.title or "", data.subTitle or "", data.duration or 1.0, "___"..data.clanTag)
             end
         end
     end
