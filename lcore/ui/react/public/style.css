@@ -85,7 +85,7 @@ body {
 .menuSubtitleText {
     float: left;
     line-height: 2.5vh;
-    font-size: 2vh;
+    font-size: 1.7vh;
     margin: 0.25vh;
     margin-left: 0.5vw;
 }
@@ -93,7 +93,7 @@ body {
 .menuSubtitlePagination {
     float: right;
     line-height: 2.5vh;
-    font-size: 2vh;
+    font-size: 1.7vh;
     margin: 0.25vh;
     margin-right: 0.5vw;
 }

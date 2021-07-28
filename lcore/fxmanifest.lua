@@ -31,6 +31,7 @@ client_scripts {
     'utils/client.lua',
 
     'ui/menu.lua',
+    'ui/notification.lua',
 
     'debug/client.lua',
 
