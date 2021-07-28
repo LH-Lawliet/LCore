@@ -153,8 +153,6 @@ export default class Menu extends React.Component {
         if (!this.isVisible()) {
             return
         }
-
-        console.log("menuData : ",data)
         
         let menu = []
 
