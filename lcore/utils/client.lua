@@ -7,7 +7,7 @@ end
 
 
 function utils:registerAdvancedControlKey(data)
-    local pressedLoop = true
+    local pressedLoop = false
 
     if (data.callbackOnPress or data.callbackPressed) then
         RegisterCommand("+"..data.action, function()
@@ -16,6 +16,7 @@ function utils:registerAdvancedControlKey(data)
             end
 
             if (data.callbackPressed) then
+                pressedLoop = true
                 Citizen.CreateThreadNow(function ()
                     while pressedLoop do
                         data.callbackPressed()

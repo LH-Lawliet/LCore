@@ -1,4 +1,6 @@
-utils = {}
+utils = {
+    stringedFunctions={}
+}
 
 
 function utils:round(number, decimals)
@@ -16,4 +18,25 @@ function utils:copy(obj)
     local res = {}
     for k, v in pairs(obj) do res[self:copy(k)] = self:copy(v) end
     return res
+end
+
+function utils:registerNewStringedFunction(funct)
+    local stringed = tostring(funct)
+    if not utils:getStringedFunction(stringed, true) then
+        table.insert(self.stringedFunctions, {str = stringed, funct = funct})
+    end
+    return stringed
+end
+
+function utils:getStringedFunction(str, notAlert)
+    for k,functTable in pairs(self.stringedFunctions) do
+        if functTable.str==str then
+            return functTable.funct
+        end
+    end
+    
+    if not notAlert then
+        print('ERROR : utils:getStringedFunction didn\'t find corresponding function with adress : ',str )
+    end
+    return nil
 end

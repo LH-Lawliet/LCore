@@ -4,11 +4,11 @@ import Banner from './Banner.js'
 import Subtitle from './Subtitle.js'
 import Button from './Button.js'
 import ArrowsUpAndDown from './ArrowsUpAndDown.js'
-
+import {recursiveAssign, callFivemCallback} from './../utils.js'
 
 
 let defaultMenu = {
-    "width": "20vw",
+    "width": "25vw",
     "padding": "2vh",
     "banner": {
         "title":"Title",
@@ -20,20 +20,6 @@ let defaultMenu = {
     "buttons":[]
 }
 
-
-function recursiveAssign(element1,element2) {
-    for (let k in element2) {
-        if (typeof element2[k] === "object") {
-            if (element1[k] && (typeof element1[k] === "object")) {
-                recursiveAssign(element1[k],element2[k])
-            } else {
-                element1[k] = element2[k]
-            }
-        } else {
-            element1[k] = element2[k]
-        }
-    }
-}
 
 
 export default class Menu extends React.Component {
@@ -51,39 +37,70 @@ export default class Menu extends React.Component {
         this.getCurrentButton = this.getCurrentButton.bind(this)
         this.menuGoUp = this.menuGoUp.bind(this)
         this.menuGoDown = this.menuGoDown.bind(this)
+        this.menuPressSelect = this.menuPressSelect.bind(this)
         this.isVisible = this.isVisible.bind(this)
         this.setVisible = this.setVisible.bind(this)
     };
 
     componentDidMount() {
-        console.log("menu nui side, listen for event")
         let setMenuData = this.setMenuData
         let menuGoUp = this.menuGoUp
         let menuGoDown = this.menuGoDown
+        let menuPressSelect = this.menuPressSelect
         let isVisible = this.isVisible
+        let setVisible = this.setVisible
         window.addEventListener('message', function(event) {
             if (event.data.action && event.data.action === "setMenu") {
-                console.log(event)
                 if (!isVisible()) {
                     setMenuData(event.data.menuData, true)
                 }
             }
+            if (event.data.action && event.data.action === "closeMenu") {
+                if (isVisible()) {
+                    setVisible(false)
+                }
+            }
             if (event.data.action && event.data.action === "menuGoUp") {
-                menuGoUp()
+                if (isVisible()) {
+                    menuGoUp()
+                }
             }
             if (event.data.action && event.data.action === "menuGoDown") {
-                menuGoDown()
+                if (isVisible()) {
+                    menuGoDown()
+                }
+            }
+            if (event.data.action && event.data.action === "menuPressSelect") {
+                if (isVisible()) {
+                    menuPressSelect()
+                }
             }
         });
 
         window.addEventListener('keydown', function (e) {
             if (e.key === "ArrowDown") {
-                menuGoDown()
+                if (isVisible()) {
+                    menuGoDown()
+                }
             }
             if (e.key === "ArrowUp") {
-                menuGoUp()
+                if (isVisible()) {
+                    menuGoUp()
+                }
+            }
+            if (e.key === "Enter") {
+                if (isVisible()) {
+                    menuPressSelect()
+                }
             }
         });
+    }
+
+    menuPressSelect() {
+        let button = this.state.menuData.buttons[this.state.menuData.currentButton]
+        if (button && button.callback) {
+            callFivemCallback("callButtonCallback", button)
+        }
     }
 
     menuGoUp() {
