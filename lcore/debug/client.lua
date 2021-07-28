@@ -9,7 +9,7 @@ Citizen.CreateThreadNow(function ()
         end)
 
 
-        menu = menuHandler:create({
+        local notifcationMenu = menuHandler:create({
             banner={
                 title="Debug"
             },
@@ -57,7 +57,19 @@ Citizen.CreateThreadNow(function ()
                 {text="Petit brestoi sans titre", callback = function()
                     notificationHandler:create({mainText=_("petitBrestoi")})
                 end},
-                {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        menu = menuHandler:create({
+            banner={
+                title="Debug"
+            },
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text="Text"},
+                {text="Notification", rightText=">", subMenu = notifcationMenu},
+                {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })
 

@@ -12,12 +12,22 @@ function utils:round(number, decimals)
     end
 end
 
-
 function utils:copy(obj)
     if type(obj) ~= 'table' then return obj end
     local res = {}
     for k, v in pairs(obj) do res[self:copy(k)] = self:copy(v) end
     return res
+end
+
+function utils:setToJsonable(obj)
+    for k, v in pairs(obj) do
+        if type(v) == "table" then
+            obj[k] = self:setToJsonable(v)
+        elseif type(v) == "function" then
+            obj[k]=nil
+        end
+    end
+    return obj
 end
 
 function utils:registerNewStringedFunction(funct)

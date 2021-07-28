@@ -35,6 +35,8 @@ client_scripts {
 
     'debug/client.lua',
 
+    'vehicle/client.lua',
+
     'player/client.lua',
     'spawn/client.lua'
 }

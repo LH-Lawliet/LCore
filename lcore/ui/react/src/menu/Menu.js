@@ -7,17 +7,19 @@ import ArrowsUpAndDown from './ArrowsUpAndDown.js'
 import {recursiveAssign, callFivemCallback} from './../utils.js'
 
 
-let defaultMenu = {
-    "width": "25vw",
-    "padding": "2vh",
-    "banner": {
-        "title":"Title",
-        "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/LMenu/main/static/interaction_bgd.png",
-    },
-    "subTitle": "Subtitle",
-    "maxButtons":10,
-    "currentButton":0,
-    "buttons":[]
+function getDefaultMenu() {
+    return {
+        "width": "25vw",
+        "padding": "2vh",
+        "banner": {
+            "title":"Title",
+            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/LMenu/main/static/interaction_bgd.png",
+        },
+        "subTitle": "Subtitle",
+        "maxButtons":10,
+        "currentButton":0,
+        "buttons":[]
+    }
 }
 
 
@@ -27,7 +29,7 @@ export default class Menu extends React.Component {
     constructor () {
         super();
         this.state = {
-            menuData: defaultMenu,
+            menuData: getDefaultMenu(),
             showMenu: false
         };
 
@@ -57,7 +59,7 @@ export default class Menu extends React.Component {
             }
             if (event.data.action && event.data.action === "closeMenu") {
                 if (isVisible()) {
-                    setVisible(false)
+                    setVisible(false, event.data.getState)
                 }
             }
             if (event.data.action && event.data.action === "menuGoUp") {
@@ -127,8 +129,17 @@ export default class Menu extends React.Component {
         return this.state.showMenu
     }
 
-    setVisible(visible) {
-        this.setState({showMenu:visible})
+    setVisible(visible, callbackState) {
+        if (visible) {
+            this.setState({showMenu:visible})
+        } else {
+            if (callbackState) {
+                callFivemCallback("updateMenuState", this.getMenuData())
+            }
+            console.log("reset to ", getDefaultMenu())
+            this.setState({showMenu:visible, menuData:getDefaultMenu()})
+        }
+        
     }
 
     getCurrentButton() {
@@ -136,9 +147,9 @@ export default class Menu extends React.Component {
     }
 
     setMenuData(data, forceVisible) {
+        let menu = getDefaultMenu()
+        recursiveAssign(menu,data)
         if (forceVisible) {
-            let menu = Object.assign({}, defaultMenu)
-            recursiveAssign(menu,data)
             this.setState({menuData:menu, showMenu:true})
         } else {
             this.setState({menuData:data})

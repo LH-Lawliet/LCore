@@ -1,12 +1,36 @@
 menuHandler = {}
+local callbackMenu = {}
+
 
 function menuHandler:create(data)
-    local newMenu = utils:copy(data)
+    local menu = utils:copy(data)
 
-    if newMenu.buttons then
-        for k,button in pairs(newMenu.buttons) do
+    setmetatable(menu,menuHandler)
+
+    menu.closeMenu = function (getState)
+        SendNUIMessage({action="closeMenu", getState=getState})
+        if (getState) then
+            callbackMenu = nil
+            while not callbackMenu do
+                Wait(0)
+            end
+            callbackMenu.closeMenu = menu.closeMenu
+            menu = callbackMenu
+        end
+    end
+
+    if menu.buttons then
+        for k,button in pairs(menu.buttons) do
             if button.close then
-                button.callback = menuHandler.closeMenu
+                button.callback = menu.closeMenu
+            end
+            if button.subMenu then
+                button.callback = function ()
+                    menu.closeMenu(true)
+                    button.subMenu.parentMenu = menu
+                    debug:PrintTable(button.subMenu)
+                    self:openMenu(button.subMenu)
+                end
             end
             if button.callback then
                 button.callback = utils:registerNewStringedFunction(button.callback)
@@ -14,17 +38,35 @@ function menuHandler:create(data)
         end
     end
 
-    return newMenu
+    return menu
 end
 
 function menuHandler:openMenu(menu, selectedButton)
     menu.currentButton = selectedButton or menu.currentButton or 0
-    SendNUIMessage({action="setMenu", menuData=menu})
+    local sendedMenu = utils:setToJsonable(utils:copy(menu))
+    SendNUIMessage({action="setMenu", menuData=sendedMenu})
 end
 
-function menuHandler:closeMenu()
-    SendNUIMessage({action="closeMenu"})
-end
+RegisterNUICallback('callButtonCallback', function(data, cb)
+    if (data.callback) then
+        local funct = utils:getStringedFunction(data.callback)
+        if funct then
+            funct(data.callback.callbackData)
+            return cb("ok")
+        end
+        return cb({error="No callbackName given"})
+    end
+    return cb({error="No callbackName given"})
+end)
+
+
+RegisterNUICallback('updateMenuState', function(data, cb)
+    debug:print("updateMenuState called")
+    callbackMenu = data
+    return cb("ok")
+end)
+
+
 
 utils:registerAdvancedControlKey({
     action="menuArrowUp",
@@ -49,17 +91,3 @@ utils:registerAdvancedControlKey({
 utils:registerControlKey("menuSelect", _("menuEnter"), "RETURN", function ()
     SendNUIMessage({action="menuPressSelect"})
 end)
-
-
-RegisterNUICallback('callButtonCallback', function(data, cb)
-    if (data.callback) then
-        local funct = utils:getStringedFunction(data.callback)
-        if funct then
-            funct(data.callback.callbackData)
-            return cb("ok")
-        end
-        return cb({error="No callbackName given"})
-    end
-    return cb({error="No callbackName given"})
-end)
-
