@@ -13,7 +13,7 @@ function getDefaultMenu() {
         "padding": "2vh",
         "banner": {
             "title":"Title",
-            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/LMenu/main/static/interaction_bgd.png",
+            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/interaction_bgd.png",
         },
         "subTitle": "Subtitle",
         "maxButtons":10,

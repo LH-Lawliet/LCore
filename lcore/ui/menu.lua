@@ -1,5 +1,5 @@
 menuHandler = {}
-local callbackMenu = {}
+local callbackMenu = nil
 
 
 function menuHandler:create(data)
@@ -15,7 +15,8 @@ function menuHandler:create(data)
                 Wait(0)
             end
             callbackMenu.closeMenu = menu.closeMenu
-            menu = callbackMenu
+            menu = utils:copy(callbackMenu)
+            callbackMenu = nil
         end
     end
 
@@ -30,6 +31,13 @@ function menuHandler:create(data)
                     button.subMenu.parentMenu = menu
                     debug:PrintTable(button.subMenu)
                     self:openMenu(button.subMenu)
+                end
+            end
+            if button.back then
+                button.callback = function ()
+                    menu.closeMenu(true)
+                    self:openMenu(menu.parentMenu)
+                    menu.parentMenu = nil
                 end
             end
             if button.callback then
