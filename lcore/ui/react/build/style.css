@@ -49,19 +49,33 @@ body {
 
 #menuBanner {
     width: 100%;
-    height: 10vh;
     background: rgb(9,58,118);
     background: linear-gradient(104deg, rgba(9,58,118,1) 0%, rgba(49,105,189,1) 100%);
     position: relative;
-
 }
 
-#menuBanner img{
+
+#menuBanner img {
+    position: absolute;
+}
+
+#menuBanner .menuBannerBackground{
     width: 100%;
     height: 100%;
-    position: relative;
     text-align: center;
     opacity: 0.95;
+}
+
+#menuBanner .menuBannerHeritageLeft{
+    height: 98%;
+    bottom: 0px;
+    left: 8%;
+}
+
+#menuBanner .menuBannerHeritageRight{
+    height: 98%;
+    bottom: 0px;
+    right: 8%;
 }
 
 #menuBanner span{
@@ -104,6 +118,7 @@ body {
     height: 3vh;
     color: rgba(255,255,255,0.9);
     font-weight: 400;
+    background-color: rgba(0,0,0,0.6);
 }
 
 .menuButtonLeftText {
@@ -124,6 +139,7 @@ body {
 
 .menuSelectedButton {
     color: rgba(0,0,0,0.9);
+    background-color: rgba(230,230,230,0.95);
     font-weight: 600;
 }
 
@@ -138,4 +154,34 @@ body {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0px);
+}
+
+
+.rightPartListButton{
+    position: relative;
+    float: right;
+    height: 3vh;
+}
+
+.rightPartListButton .spanContainer {
+    display: inline-block;
+    height: 100%;
+    width: 10vh;
+    text-align: center;
+    overflow: hidden;
+}
+
+.rightPartListButton span{
+    line-height: 3vh;
+    font-size: 1.6vh;
+}
+
+.rightPartListButton img{
+    height: 100%;
+}
+
+.menuSelectedButton img {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    background-color: transparent;
 }

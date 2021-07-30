@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Subtitle extends React.Component {
+export default class Button extends React.Component {
     state = {};
     constructor (data) {
         super(data);
@@ -29,25 +29,23 @@ export default class Subtitle extends React.Component {
     renderButton () {
         let button = []
 
-        let className = "unselectable"
-        if (this.isSelected()) {
-            className += " menuSelectedButton"
-        }
-
         if (this.state.buttonData.text) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={"menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
         }
         if (this.state.buttonData.rightText) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={className+" menuButtonRightText"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={"menuButtonRightText"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
         }
         return button
     }
 
     render() {
-        let button = this.renderButton()
-        let selected = this.isSelected()
+        let button = this.renderButton()       
+        let className = "menuButton"
+        if (this.isSelected()) {
+            className += " menuSelectedButton"
+        }
         return (      
-            <div className="menuButton" style={{"backgroundColor":(selected ? "rgba(230,230,230,0.95)" : "rgba(0,0,0,0.6)")}}>
+            <div className={className}>
                 {button}
             </div>
         )

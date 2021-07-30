@@ -3,12 +3,14 @@ import React from 'react';
 import Banner from './Banner.js'
 import Subtitle from './Subtitle.js'
 import Button from './Button.js'
+import ListButton from './ListButton.js'
+
 import ArrowsUpAndDown from './ArrowsUpAndDown.js'
 import {recursiveAssign, callFivemCallback} from './../utils.js'
 
 
 function getDefaultMenu() {
-    return {
+    /*return {
         "width": "25vw",
         "padding": "2vh",
         "banner": {
@@ -19,6 +21,28 @@ function getDefaultMenu() {
         "maxButtons":10,
         "currentButton":0,
         "buttons":[]
+    }*/
+
+    return {
+        "width": "25vw",
+        "padding": "2vh",
+        "banner": {
+            "title":"",
+            "height":"20vh",
+            "heritage":{
+                0:3,
+                1:25
+            },
+            "vignette": true,
+            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/mom_dad/menu/mumdadbg.png",
+        },
+        "subTitle": "Subtitle",
+        "maxButtons":10,
+        "currentButton":0,
+        "buttons":[
+            {text:"Text 1"},
+            {type:"list", text:"Text 2", list:["part 1", "part 2", "part 3"]}
+        ]
     }
 }
 
@@ -30,7 +54,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: false
+            showMenu: true
         };
 
         this.createMenu = this.createMenu.bind(this)
@@ -136,7 +160,6 @@ export default class Menu extends React.Component {
             if (callbackState) {
                 callFivemCallback("updateMenuState", this.getMenuData())
             }
-            console.log("reset to ", getDefaultMenu())
             this.setState({showMenu:visible, menuData:getDefaultMenu()})
         }
         
@@ -200,16 +223,20 @@ export default class Menu extends React.Component {
             for (let n = start; n < end; n++) {
                 let k = n+""
 
+                let thisButton = data.buttons[k]
+
                 if (n === data.currentButton) {
-                    data.buttons[k].selected = true
+                    thisButton.selected = true
                 } else {
-                    data.buttons[k].selected = false
+                    thisButton.selected = false
                 }
 
                 
-                data.buttons[k].id = n
-                if (!data.buttons.type) {
-                    menu.push(<Button key={n} button={data.buttons[k]}/>)
+                thisButton.id = n
+                if (!thisButton.type) {
+                    menu.push(<Button key={n} button={thisButton}/>)
+                } else if (thisButton.type === "list") {
+                    menu.push(<ListButton key={n} button={thisButton}/>)
                 }
             }
 
