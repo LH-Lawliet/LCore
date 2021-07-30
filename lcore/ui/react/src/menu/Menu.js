@@ -10,10 +10,11 @@ import {recursiveAssign, callFivemCallback} from './../utils.js'
 
 
 function getDefaultMenu() {
-    /*return {
+    return {
         "width": "25vw",
         "padding": "2vh",
         "banner": {
+            "height":'10vh',
             "title":"Title",
             "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/interaction_bgd.png",
         },
@@ -21,28 +22,6 @@ function getDefaultMenu() {
         "maxButtons":10,
         "currentButton":0,
         "buttons":[]
-    }*/
-
-    return {
-        "width": "25vw",
-        "padding": "2vh",
-        "banner": {
-            "title":"",
-            "height":"20vh",
-            "heritage":{
-                0:3,
-                1:25
-            },
-            "vignette": true,
-            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/mom_dad/menu/mumdadbg.png",
-        },
-        "subTitle": "Subtitle",
-        "maxButtons":10,
-        "currentButton":0,
-        "buttons":[
-            {text:"Text 1"},
-            {type:"list", text:"Text 2", list:["part 1", "part 2", "part 3"]}
-        ]
     }
 }
 
@@ -54,7 +33,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: true
+            showMenu: false
         };
 
         this.createMenu = this.createMenu.bind(this)

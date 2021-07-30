@@ -61,14 +61,28 @@ Citizen.CreateThreadNow(function ()
             }
         })
 
+
+        local pedMenu = menuHandler:create({
+            banner={
+                title="Debug"
+            },
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text="randomPed", callback = function()
+                    pedHandler:create({pos = myPed.pedCoords})
+                end},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
         menu = menuHandler:create({
             banner={
                 title="Debug"
             },
             subTitle=_("chooseAnOption"),
             buttons={
-                {text="Text"},
                 {text="Notification", rightText=">", subMenu = notifcationMenu},
+                {text="Ped", rightText=">", subMenu = pedMenu},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })
