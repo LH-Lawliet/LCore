@@ -62,10 +62,10 @@ export default class Button extends React.Component {
         let button = []
 
         if (this.state.buttonData.text) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={"menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={"menuButtonLeftText unselectable"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
         }
         if (this.state.buttonData.rightText) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={"menuButtonRightText"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
+            button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={"menuButtonRightText unselectable"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
         }
         return button
     }
