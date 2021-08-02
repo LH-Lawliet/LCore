@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {callFivemCallback} from './../utils.js'
+
+
 export default class Button extends React.Component {
     state = {};
     constructor (data) {
@@ -13,6 +16,35 @@ export default class Button extends React.Component {
         this.isSelected = this.isSelected.bind(this)
         this.renderButton = this.renderButton.bind(this)
     };
+
+
+    componentDidMount() {
+        let menuPressSelect = this.menuPressSelect
+        let isSelected = this.isSelected
+
+        window.addEventListener('message', function(event) {
+            if (event.data.action && event.data.action === "menuPressSelect") {
+                if (isSelected()) {
+                    menuPressSelect()
+                }
+            }
+        });
+
+        window.addEventListener('keydown', function (e) {
+            if (e.key === "Enter") {
+                if (isSelected()) {
+                    menuPressSelect()
+                }
+            }
+        });
+    }
+
+    menuPressSelect() {
+        let button = this.state.buttonData
+        if (button && button.callback) {
+            callFivemCallback("callButtonCallback", button)
+        }
+    }
 
     getText () {
         return this.state.buttonData.text

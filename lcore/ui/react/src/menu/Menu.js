@@ -21,7 +21,12 @@ function getDefaultMenu() {
         "subTitle": "Subtitle",
         "maxButtons":10,
         "currentButton":0,
-        "buttons":[]
+        "buttons":[
+            {type:"list", text:'list1', list:["Element 1", "Element 2", "Element 3"]},
+            {type:"list", text:'list2', list:["Element 1", "Element 2", "Element 3"]},
+            {text:"in string de guerre"}
+
+        ]
     }
 }
 
@@ -33,7 +38,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: false
+            showMenu: true
         };
 
         this.createMenu = this.createMenu.bind(this)
@@ -42,7 +47,6 @@ export default class Menu extends React.Component {
         this.getCurrentButton = this.getCurrentButton.bind(this)
         this.menuGoUp = this.menuGoUp.bind(this)
         this.menuGoDown = this.menuGoDown.bind(this)
-        this.menuPressSelect = this.menuPressSelect.bind(this)
         this.isVisible = this.isVisible.bind(this)
         this.setVisible = this.setVisible.bind(this)
     };
@@ -51,7 +55,6 @@ export default class Menu extends React.Component {
         let setMenuData = this.setMenuData
         let menuGoUp = this.menuGoUp
         let menuGoDown = this.menuGoDown
-        let menuPressSelect = this.menuPressSelect
         let isVisible = this.isVisible
         let setVisible = this.setVisible
         window.addEventListener('message', function(event) {
@@ -75,11 +78,6 @@ export default class Menu extends React.Component {
                     menuGoDown()
                 }
             }
-            if (event.data.action && event.data.action === "menuPressSelect") {
-                if (isVisible()) {
-                    menuPressSelect()
-                }
-            }
         });
 
         window.addEventListener('keydown', function (e) {
@@ -93,19 +91,7 @@ export default class Menu extends React.Component {
                     menuGoUp()
                 }
             }
-            if (e.key === "Enter") {
-                if (isVisible()) {
-                    menuPressSelect()
-                }
-            }
         });
-    }
-
-    menuPressSelect() {
-        let button = this.state.menuData.buttons[this.state.menuData.currentButton]
-        if (button && button.callback) {
-            callFivemCallback("callButtonCallback", button)
-        }
     }
 
     menuGoUp() {
