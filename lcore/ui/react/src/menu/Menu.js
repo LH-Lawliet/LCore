@@ -24,8 +24,8 @@ function getDefaultMenu() {
         "buttons":[
             {type:"list", text:'list1', list:["Element 1", "Element 2", "Element 3"]},
             {type:"list", text:'list2', list:["Element 1", "Element 2", "Element 3"]},
-            {text:"in string de guerre"}
-
+            {text:"in string de guerre"},
+            {text:"Carcolor", rightComponent:"colorPicker"},
         ]
     }
 }

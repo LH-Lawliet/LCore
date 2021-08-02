@@ -66,6 +66,10 @@ export default class Button extends React.Component {
         }
         if (this.state.buttonData.rightText) {
             button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={"menuButtonRightText unselectable"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
+        } else if (this.state.buttonData.rightComponent) {
+            if (this.state.buttonData.rightComponent === "colorPicker") {
+                button.push(<input key={this.state.buttonData.id+"menuButtonRightComponent"} className={"menuButtonRightComponent color unselectable"} type="color" id={this.state.buttonData.id+"menuButtonRightComponent"} name={this.state.buttonData.componentText} value={this.state.colorOfInput || "#000000"}/>)
+            }
         }
         return button
     }

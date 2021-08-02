@@ -185,3 +185,8 @@ body {
     filter: invert(100%);
     background-color: transparent;
 }
+
+.menuButtonRightComponent {
+    background-color: transparent;
+    color: transparent
+}
