@@ -14,15 +14,24 @@ export default class ListButton extends React.Component {
             buttonData: data.button,
             selectedElementId: data.selectedElementId || 0
         };
+        this.mounted = false
+        this.onMouseOver = data.onMouseOver
+        
+        this.canIClick = data.canIClick
+        this.exitDisableClickZone = data.exitDisableClickZone
+        this.enterDisableClickZone = data.enterDisableClickZone
 
         this.getText = this.getText.bind(this)
         this.isSelected = this.isSelected.bind(this)
         this.renderButton = this.renderButton.bind(this)
         this.getSelectedElementText = this.getSelectedElementText.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
 
+        this.didImMounted = this.didImMounted.bind(this)
         this.menuGoRight = this.menuGoRight.bind(this)
         this.menuGoLeft = this.menuGoLeft.bind(this)
         this.menuPressSelect = this.menuPressSelect.bind(this)
+        
     };
     
     componentDidMount() {
@@ -30,49 +39,59 @@ export default class ListButton extends React.Component {
         let menuGoLeft = this.menuGoLeft
         let isSelected = this.isSelected
         let menuPressSelect = this.menuPressSelect
+        let didImMounted = this.didImMounted
+        this.mounted = true
 
 
         window.addEventListener('message', function(event) {
             if (event.data.action && event.data.action === "menuGoRight") {
-                if (isSelected()) {    
+                if (didImMounted() && isSelected()) {
                     menuGoRight()
                 }
             }
             if (event.data.action && event.data.action === "menuGoLeft") {
-                if (isSelected()) {
+                if (didImMounted() && isSelected()) {
                     menuGoLeft()
                 }
             }
             if (event.data.action && event.data.action === "menuPressSelect") {
-                if (isSelected()) {
+                if (didImMounted() && isSelected()) {
                     menuPressSelect()
                 }
             }
         });
 
         window.addEventListener('keydown', function (e) {
-            console.log(e.key)
+            //console.log(e.key)
             if (e.key === "ArrowLeft") {
-                if (isSelected()) {
+                if (didImMounted() && isSelected()) {
                     menuGoLeft()
                 }
             }
             if (e.key === "ArrowRight") {
-                if (isSelected()) {
+                if (didImMounted() && isSelected()) {
                     menuGoRight()
                 }
             }
             if (e.key === "Enter") {
-                if (isSelected()) {
+                if (didImMounted() && isSelected()) {
                     menuPressSelect()
                 }
             }
         });
     }
 
+    didImMounted() {
+        return this.mounted
+    }
+
+    componentWillUnmount() {
+        this.mounted = false
+    }
+
     menuPressSelect() {
         let button = this.state.buttonData
-        if (button && button.callback) {
+        if (this.didImMounted() && button && button.callback && this.isSelected()) {
             callFivemCallback("callButtonCallback", button)
         }
     }
@@ -122,13 +141,43 @@ export default class ListButton extends React.Component {
         }
 
         let selectedText = this.getSelectedElementText()
+        let menuGoLeft = this.menuGoLeft
+        let menuGoRight = this.menuGoRight
+        let enterDisableClickZone = this.enterDisableClickZone
+        let exitDisableClickZone = this.exitDisableClickZone
+        let canIClick = this.canIClick
+
         button.push(
-            <div key={this.state.buttonData.id+"menuButtonRightTextDiv"} className = {className+" rightPartListButton"}>
-                <img key={this.state.buttonData.id+"menuButtonRightTextLeftArrow"} alt='leftArrow' src={leftArrowUrl} className={className} />
+            <div 
+                key={this.state.buttonData.id+"menuButtonRightTextDiv"} 
+                className = {className+" rightPartListButton"} 
+                onMouseDown= { function () {
+                    if (canIClick()) {
+                        console.log("click on list")
+                    }
+                }}
+            >
+                <img 
+                    key={this.state.buttonData.id+"menuButtonRightTextLeftArrow"} 
+                    alt='leftArrow' 
+                    src={leftArrowUrl} 
+                    className={className} 
+                    onMouseDown={menuGoLeft}
+                    onMouseEnter={enterDisableClickZone}
+                    onMouseLeave={exitDisableClickZone} 
+                />
                 <div className="spanContainer">
                     <span key={this.state.buttonData.id+"menuButtonRightText"}>{selectedText}</span>
                 </div>
-                <img key={this.state.buttonData.id+"menuButtonRightTextRightArrow"} alt='rightArrow' src={rightArrowUrl} className={className} />
+                <img 
+                    key={this.state.buttonData.id+"menuButtonRightTextRightArrow"} 
+                    alt='rightArrow' 
+                    src={rightArrowUrl} 
+                    className={className} 
+                    onMouseDown={menuGoRight} 
+                    onMouseEnter={enterDisableClickZone}
+                    onMouseLeave={exitDisableClickZone} 
+                />
             </div>
         )
         
@@ -137,6 +186,7 @@ export default class ListButton extends React.Component {
 
     render() {
         let button = this.renderButton()
+        let onMouseOver = this.onMouseOver
 
         let className = "menuButton"
         if (this.isSelected()) {
@@ -144,7 +194,7 @@ export default class ListButton extends React.Component {
         }
 
         return (      
-            <div className={className}>
+            <div className={className} onMouseOver={onMouseOver}>
                 {button}
             </div>
         )

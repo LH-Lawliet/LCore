@@ -6,23 +6,63 @@ import Button from './Button.js'
 import ListButton from './ListButton.js'
 
 import ArrowsUpAndDown from './ArrowsUpAndDown.js'
-import {recursiveAssign, callFivemCallback} from './../utils.js'
+import {isEnvBrowser, recursiveAssign, callFivemCallback} from './../utils.js'
 
 
 function getDefaultMenu() {
-    return {
-        "width": "25vw",
-        "padding": "2vh",
-        "banner": {
-            "height":'10vh',
-            "title":"Title",
-            "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/interaction_bgd.png",
-        },
-        "subTitle": "Subtitle",
-        "maxButtons":10,
-        "currentButton":0,
-        "buttons":[]
+    if (isEnvBrowser()) {
+        return {
+            "width": "25vw",
+            "padding": "2vh",
+            "banner": {
+                "height":'10vh',
+                "title":"Title",
+                "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/interaction_bgd.png",
+            },
+            "subTitle": "Subtitle",
+            "maxButtons":10,
+            "currentButton":0,
+            "mouse":true,
+            "buttons":[
+                {text:"Button 1"},
+                {text:"list", type:'list', list:["elem 1", "elem 2", "elem 3"]},
+                {text:"Carcolor", rightComponent:"colorPicker", onColorChange:'function jsp'},
+                {text:"button"},
+                {text:"button2"},
+                {text:"button3"},
+                {text:"button4"},
+                {text:"button5"},
+                {text:"button6"},
+                {text:"button7"},
+                {text:"button8"},
+                {text:"button9"},
+                {text:"button10"},
+                {text:"button11"},
+                {text:"button12"},
+                {text:"button13"},
+                {text:"button14"},
+                {text:"button15"},
+                {text:"button16"},
+                {text:"button17"},
+                {text:"button18"},
+            ]
+        }
+    } else {
+        return {
+            "width": "25vw",
+            "padding": "2vh",
+            "banner": {
+                "height":'10vh',
+                "title":"Title",
+                "backgroundImage":"https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/interaction_bgd.png",
+            },
+            "subTitle": "Subtitle",
+            "maxButtons":10,
+            "currentButton":0,
+            "buttons":[]
+        }
     }
+    
 }
 
 
@@ -33,7 +73,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: false
+            showMenu: isEnvBrowser()
         };
 
         this.createMenu = this.createMenu.bind(this)
@@ -44,6 +84,12 @@ export default class Menu extends React.Component {
         this.menuGoDown = this.menuGoDown.bind(this)
         this.isVisible = this.isVisible.bind(this)
         this.setVisible = this.setVisible.bind(this)
+        this.setSelected = this.setSelected.bind(this)
+        this.canIClick = this.canIClick.bind(this)
+        this.enterDisableClickZone = this.enterDisableClickZone.bind(this)
+        this.exitDisableClickZone = this.exitDisableClickZone.bind(this)
+        this.isMouseControlable = this.isMouseControlable.bind(this)
+        this.canClick = true
     };
 
     componentDidMount() {
@@ -87,6 +133,33 @@ export default class Menu extends React.Component {
                 }
             }
         });
+
+        let isMouseControlable = this.isMouseControlable
+        window.addEventListener('wheel', function (e) {
+            if (isVisible() && isMouseControlable()) {
+                if (e.deltaY>0) {
+                    menuGoDown()
+                } else {
+                    menuGoUp()
+                }
+            }
+        });
+    }
+
+    isMouseControlable() {
+        return this.state.menuData.mouse
+    }
+
+    canIClick() {
+        return (this.canClick && this.isMouseControlable())
+    }
+
+    enterDisableClickZone() {
+        this.canClick = false
+    }
+
+    exitDisableClickZone() {
+        this.canClick = true
     }
 
     menuGoUp() {
@@ -143,6 +216,12 @@ export default class Menu extends React.Component {
         return this.state.menuData
     }
 
+    setSelected(id) {
+        let menuData = this.state.menuData
+        menuData.currentButton = id
+        this.setState({menuData: this.state.menuData})
+    }
+
     createMenu(data) {
         if (!this.isVisible()) {
             return
@@ -162,15 +241,24 @@ export default class Menu extends React.Component {
                 end = data.buttons.length
             }
 
-            if (end-2<data.currentButton) {
-                start = data.currentButton-(data.maxButtons-2)
-                end = data.currentButton+2
+            if (this.isMouseControlable()) {
+                if ( (end-1)<data.currentButton) {
+                    start = data.currentButton-(data.maxButtons-1)
+                    end = data.currentButton+1
+                }
+            } else {
+                if ( (end-2)<data.currentButton ) {
+                    start = data.currentButton-(data.maxButtons-2)
+                    end = data.currentButton+2
+                }
             }
+
 
             if (end>data.buttons.length-1) {
                 end = data.buttons.length
                 start = end-data.maxButtons
             }
+
 
             if (start<0) {
                 start = 0
@@ -179,6 +267,9 @@ export default class Menu extends React.Component {
             if (end<0) {
                 end = 0
             }
+
+            this.oldStart = start
+            this.oldEnd = end
 
             for (let n = start; n < end; n++) {
                 let k = n+""
@@ -193,10 +284,15 @@ export default class Menu extends React.Component {
 
                 
                 thisButton.id = n
+                let setSelected = this.setSelected
+                let enterDisableClickZone = this.enterDisableClickZone
+                let exitDisableClickZone = this.exitDisableClickZone
+                let canIClick = this.canIClick
+
                 if (!thisButton.type) {
-                    menu.push(<Button key={n} button={thisButton}/>)
+                    menu.push(<Button key={n} button={thisButton} exitDisableClickZone={exitDisableClickZone} enterDisableClickZone={enterDisableClickZone} canIClick={canIClick} onMouseOver={function () {setSelected(n)}}/>)
                 } else if (thisButton.type === "list") {
-                    menu.push(<ListButton key={n} button={thisButton}/>)
+                    menu.push(<ListButton key={n} button={thisButton} enterDisableClickZone={enterDisableClickZone} exitDisableClickZone={exitDisableClickZone} canIClick={canIClick} onMouseOver={function () {setSelected(n)}}/>)
                 }
             }
 
