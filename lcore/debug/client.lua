@@ -80,9 +80,18 @@ Citizen.CreateThreadNow(function ()
                 title="Debug"
             },
             subTitle=_("chooseAnOption"),
+            mouse=true,
             buttons={
                 {text="Notification", rightText=">", subMenu = notifcationMenu},
                 {text="Ped", rightText=">", subMenu = pedMenu},
+                {text="Carcolor", rightComponent="colorPicker", onColorChange=function (data)
+                    debug:print('COLOR CHANGE')
+                    local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                    if vehicle~=0 then
+                        debug:print('SetVehicleCustomPrimaryColour',vehicle, data.r, data.g, data.b)
+                        SetVehicleCustomPrimaryColour(vehicle, data.r, data.g, data.b)
+                    end
+                end},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })

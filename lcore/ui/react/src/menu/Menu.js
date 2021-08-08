@@ -21,12 +21,7 @@ function getDefaultMenu() {
         "subTitle": "Subtitle",
         "maxButtons":10,
         "currentButton":0,
-        "buttons":[
-            {type:"list", text:'list1', list:["Element 1", "Element 2", "Element 3"]},
-            {type:"list", text:'list2', list:["Element 1", "Element 2", "Element 3"]},
-            {text:"in string de guerre"},
-            {text:"Carcolor", rightComponent:"colorPicker"},
-        ]
+        "buttons":[]
     }
 }
 
@@ -38,7 +33,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: true
+            showMenu: false
         };
 
         this.createMenu = this.createMenu.bind(this)

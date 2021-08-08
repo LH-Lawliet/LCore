@@ -37,6 +37,9 @@ function playerPedClass:create(model,pos)
     return pedInfo
 end
 
+function playerPedClass:GetPlayerPed()
+    return self.playerPed
+end
 
 function playerPedClass:GetPlayerId()
     if not self.playerId then

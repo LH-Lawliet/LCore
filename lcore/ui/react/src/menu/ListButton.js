@@ -22,6 +22,7 @@ export default class ListButton extends React.Component {
 
         this.menuGoRight = this.menuGoRight.bind(this)
         this.menuGoLeft = this.menuGoLeft.bind(this)
+        this.menuPressSelect = this.menuPressSelect.bind(this)
     };
     
     componentDidMount() {

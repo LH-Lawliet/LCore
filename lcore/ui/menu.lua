@@ -9,6 +9,7 @@ function menuHandler:create(data)
 
     menu.closeMenu = function (getState)
         SendNUIMessage({action="closeMenu", getState=getState})
+        SetNuiFocus(false, false)
         if (getState) then
             callbackMenu = nil
             while not callbackMenu do
@@ -29,7 +30,6 @@ function menuHandler:create(data)
                 button.callback = function ()
                     menu.closeMenu(true)
                     button.subMenu.parentMenu = menu
-                    debug:PrintTable(button.subMenu)
                     self:openMenu(button.subMenu)
                 end
             end
@@ -43,6 +43,9 @@ function menuHandler:create(data)
             if button.callback then
                 button.callback = utils:registerNewStringedFunction(button.callback)
             end
+            if button.onColorChange then
+                button.onColorChange = utils:registerNewStringedFunction(button.onColorChange)
+            end
         end
     end
 
@@ -52,6 +55,7 @@ end
 function menuHandler:openMenu(menu, selectedButton)
     menu.currentButton = selectedButton or menu.currentButton or 0
     local sendedMenu = utils:setToJsonable(utils:copy(menu))
+    SetNuiFocus(menu.mouse, menu.mouse)
     SendNUIMessage({action="setMenu", menuData=sendedMenu})
 end
 
@@ -59,7 +63,7 @@ RegisterNUICallback('callButtonCallback', function(data, cb)
     if (data.callback) then
         local funct = utils:getStringedFunction(data.callback)
         if funct then
-            funct(data.callback.callbackData)
+            funct(data.callbackData)
             return cb("ok")
         end
         return cb({error="No callbackName given"})
@@ -69,7 +73,6 @@ end)
 
 
 RegisterNUICallback('updateMenuState', function(data, cb)
-    debug:print("updateMenuState called")
     callbackMenu = data
     return cb("ok")
 end)

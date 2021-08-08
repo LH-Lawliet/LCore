@@ -187,6 +187,16 @@ body {
 }
 
 .menuButtonRightComponent {
+    position: absolute;
+    right: 1.5vw;
+}
+
+.menuButtonRightComponent.color{
     background-color: transparent;
-    color: transparent
+    width: 3vh;
+    height: 3vh;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    border: none;
 }

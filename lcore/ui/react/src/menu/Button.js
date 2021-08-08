@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {callFivemCallback} from './../utils.js'
+import {callFivemCallback, hexToRGB} from './../utils.js'
 
 
 export default class Button extends React.Component {
@@ -15,16 +15,24 @@ export default class Button extends React.Component {
         this.getRightText = this.getRightText.bind(this)
         this.isSelected = this.isSelected.bind(this)
         this.renderButton = this.renderButton.bind(this)
+        this.menuPressSelect = this.menuPressSelect.bind(this)
+        this.didImMounted = this.didImMounted.bind(this)
+        this.colorChange = this.colorChange.bind(this)
+
+        this.mounted = false
     };
 
 
     componentDidMount() {
         let menuPressSelect = this.menuPressSelect
+        let didImMounted = this.didImMounted
         let isSelected = this.isSelected
+        this.mounted = true
 
         window.addEventListener('message', function(event) {
             if (event.data.action && event.data.action === "menuPressSelect") {
-                if (isSelected()) {
+                //console.log("get message to menuPressSelect")
+                if (didImMounted() && isSelected()) {
                     menuPressSelect()
                 }
             }
@@ -32,18 +40,28 @@ export default class Button extends React.Component {
 
         window.addEventListener('keydown', function (e) {
             if (e.key === "Enter") {
-                if (isSelected()) {
+                //console.log("get keydown to menuPressSelect")
+                if (didImMounted() && isSelected()) {
                     menuPressSelect()
                 }
             }
         });
     }
 
+    didImMounted() {
+        return this.mounted
+    }
+
+    componentWillUnmount() {
+        this.mounted = false
+    }
+
     menuPressSelect() {
         let button = this.state.buttonData
-        if (button && button.callback) {
+        if (this.didImMounted() && button && button.callback && this.isSelected()) {
             callFivemCallback("callButtonCallback", button)
         }
+        return
     }
 
     getText () {
@@ -58,6 +76,13 @@ export default class Button extends React.Component {
         return this.state.buttonData.selected
     }
 
+    colorChange(color) {
+        let button = this.state.buttonData
+        if (this.didImMounted() && button && button.onColorChange && this.isSelected()) {
+            callFivemCallback("callButtonCallback", {callback:button.onColorChange, callbackData:hexToRGB(color)})
+        }
+    }
+
     renderButton () {
         let button = []
 
@@ -67,8 +92,19 @@ export default class Button extends React.Component {
         if (this.state.buttonData.rightText) {
             button.push(<span key={this.state.buttonData.id+"menuButtonRightText"} className={"menuButtonRightText unselectable"} style={this.state.buttonData.rightTextStyle}>{this.state.buttonData.rightText}</span>)
         } else if (this.state.buttonData.rightComponent) {
+            let colorChange = this.colorChange
             if (this.state.buttonData.rightComponent === "colorPicker") {
-                button.push(<input key={this.state.buttonData.id+"menuButtonRightComponent"} className={"menuButtonRightComponent color unselectable"} type="color" id={this.state.buttonData.id+"menuButtonRightComponent"} name={this.state.buttonData.componentText} value={this.state.colorOfInput || "#000000"}/>)
+                button.push(
+                    <input 
+                        key={this.state.buttonData.id+"menuButtonRightComponent"} 
+                        className={"menuButtonRightComponent color unselectable"} 
+                        type="color" 
+                        id={this.state.buttonData.id+"menuButtonRightComponent"} 
+                        name={this.state.buttonData.componentText} 
+                        readOnly={this.state.colorOfInput || "#000000"}
+                        onChange={function (e) {colorChange(e.target.value)}}
+                    />
+                )
             }
         }
         return button

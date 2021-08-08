@@ -24,6 +24,15 @@ export function recursiveAssign(element1,element2) {
     }
 }
 
+export function hexToRGB(hexCode) {
+    let aRgbHex = hexCode.replace('#','').match(/.{1,2}/g);
+    return {
+        r:parseInt(aRgbHex[0], 16),
+        g:parseInt(aRgbHex[1], 16),
+        b:parseInt(aRgbHex[2], 16)
+    };
+}
+
 
 // browser-side JS
 export function callFivemCallback(name, data) {

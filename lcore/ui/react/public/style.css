@@ -193,8 +193,10 @@ body {
 
 .menuButtonRightComponent.color{
     background-color: transparent;
-    border: transparent;
     width: 3vh;
     height: 3vh;
-    padding: 0.2vh;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    border: none;
 }
