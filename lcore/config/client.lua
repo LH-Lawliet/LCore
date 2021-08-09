@@ -4,4 +4,4 @@ config.defaultVehicle = "growler"
 config.defaultPos = {x=-1.0, y=33.8, z=71.6, h=167.0}
 config.updatePedDelay = 200
 config.defaultCallbackPressedDelay = 100
-config.defaultMaxModelLoading = 100
+config.defaultMaxModelLoading = 500
