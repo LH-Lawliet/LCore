@@ -75,15 +75,17 @@ Citizen.CreateThreadNow(function ()
             }
         })
 
-        menu = menuHandler:create({
+        local vehicleMenu = menuHandler:create({
             banner={
                 title="Debug"
             },
             subTitle=_("chooseAnOption"),
             mouse=true,
             buttons={
-                {text="Notification", rightText=">", subMenu = notifcationMenu},
-                {text="Ped", rightText=">", subMenu = pedMenu},
+                {text="CreateVehicle", callback = function ()
+                    local veh = vehicleHandler:create()
+                    debug:PrintTable(veh)
+                end},
                 {text="Carcolor", rightComponent="colorPicker", onColorChange=function (data)
                     debug:print('COLOR CHANGE')
                     local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
@@ -92,6 +94,19 @@ Citizen.CreateThreadNow(function ()
                         SetVehicleCustomPrimaryColour(vehicle, data.r, data.g, data.b)
                     end
                 end},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        menu = menuHandler:create({
+            banner={
+                title="Debug"
+            },
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text="Notification", rightText=">", subMenu = notifcationMenu},
+                {text="Ped", rightText=">", subMenu = pedMenu},
+                {text="Vehicle", rightText=">", subMenu = vehicleMenu},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })

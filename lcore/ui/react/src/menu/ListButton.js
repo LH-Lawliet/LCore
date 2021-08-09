@@ -146,6 +146,7 @@ export default class ListButton extends React.Component {
         let enterDisableClickZone = this.enterDisableClickZone
         let exitDisableClickZone = this.exitDisableClickZone
         let canIClick = this.canIClick
+        let menuPressSelect = this.menuPressSelect
 
         button.push(
             <div 
@@ -153,7 +154,7 @@ export default class ListButton extends React.Component {
                 className = {className+" rightPartListButton"} 
                 onMouseDown= { function () {
                     if (canIClick()) {
-                        console.log("click on list")
+                        menuPressSelect()
                     }
                 }}
             >

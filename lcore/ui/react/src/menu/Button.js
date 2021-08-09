@@ -127,13 +127,14 @@ export default class Button extends React.Component {
         }
         
         let canIClick = this.canIClick
+        let menuPressSelect = this.menuPressSelect
         return (      
             <div 
                 className={className} 
                 onMouseOver={onMouseOver} 
                 onMouseDown={ function () {
                     if (canIClick()) {
-                        console.log("click button")
+                        menuPressSelect()
                     }
                 }}
             >

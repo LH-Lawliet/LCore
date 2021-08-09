@@ -38,7 +38,8 @@ client_scripts {
     'ped/client.lua',
 
     'player/client.lua',
-    'spawn/client.lua'
+    'spawn/client.lua',
+    'vehicle/client.lua'
 }
 
 server_scripts {
