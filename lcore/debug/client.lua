@@ -86,14 +86,36 @@ Citizen.CreateThreadNow(function ()
                     local veh = vehicleHandler:create()
                     debug:PrintTable(veh)
                 end},
-                {text="Carcolor", rightComponent="colorPicker", onColorChange=function (data)
-                    debug:print('COLOR CHANGE')
-                    local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-                    if vehicle~=0 then
-                        debug:print('SetVehicleCustomPrimaryColour',vehicle, data.r, data.g, data.b)
-                        SetVehicleCustomPrimaryColour(vehicle, data.r, data.g, data.b)
+                {
+                    text="Carcolor", 
+                    rightComponent="colorPicker", 
+                    onColorChange=function (data)
+                        debug:print('COLOR CHANGE')
+                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        if vehicle~=0 then
+                            debug:print('SetVehicleCustomPrimaryColour',vehicle, data.r, data.g, data.b)
+                            SetVehicleCustomPrimaryColour(vehicle, data.r, data.g, data.b)
+                        end
                     end
-                end},
+                },
+                {
+                    text="Xenon", rightComponent="checkbox", 
+                    checked = function () 
+                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        if (IsToggleModOn(vehicle,22)) then
+                            return true
+                        end
+                        return false
+                    end,
+                    onCheck=function ()
+                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        ToggleVehicleMod(vehicle, 22, true)
+                    end,
+                    onUncheck= function ()
+                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        ToggleVehicleMod(vehicle, 22, false)
+                    end
+                },
                 {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
             }
         })

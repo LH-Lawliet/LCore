@@ -1,8 +1,8 @@
 debug = {}
 
-function debug:print(data)
+function debug:print(...)
     if config.debug == 1 then
-        print(data)
+        print(...)
     end
 end
 

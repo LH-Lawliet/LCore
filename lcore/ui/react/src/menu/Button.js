@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {callFivemCallback, hexToRGB} from './../utils.js'
-
+let checkBoxBlankUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_box_blank_lessMargin.png"
+let checkBoxCheckedkUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_box_tick_lessMargin.png"
 
 export default class Button extends React.Component {
     state = {};
@@ -24,6 +25,8 @@ export default class Button extends React.Component {
         this.menuPressSelect = this.menuPressSelect.bind(this)
         this.didImMounted = this.didImMounted.bind(this)
         this.colorChange = this.colorChange.bind(this)
+        this.setToChecked = this.setToChecked.bind(this)
+        this.setToUnchecked = this.setToUnchecked.bind(this)
     };
 
 
@@ -62,8 +65,16 @@ export default class Button extends React.Component {
 
     menuPressSelect() {
         let button = this.state.buttonData
-        if (this.didImMounted() && button && button.callback && this.isSelected()) {
-            callFivemCallback("callButtonCallback", button)
+        if (!button.rightComponent || !button.rightComponent === "checkbox") {
+            if (this.didImMounted() && button && button.callback && this.isSelected()) {
+                callFivemCallback("callButtonCallback", button)
+            }
+        } else {
+            if (button.checked) {
+                this.setToUnchecked()
+            } else {
+                this.setToChecked()
+            }
         }
         return
     }
@@ -85,6 +96,24 @@ export default class Button extends React.Component {
         if (this.didImMounted() && button && button.onColorChange && this.isSelected()) {
             callFivemCallback("callButtonCallback", {callback:button.onColorChange, callbackData:hexToRGB(color)})
         }
+    }
+
+    setToChecked() {
+        let button = this.state.buttonData
+        if (this.didImMounted() && button && button.onCheck && this.isSelected()) {
+            callFivemCallback("callButtonCallback", {callback:button.onCheck})
+        }
+        button.checked = true
+        this.setState({buttonData:button})
+    }
+
+    setToUnchecked() {
+        let button = this.state.buttonData
+        if (this.didImMounted() && button && button.onUncheck && this.isSelected()) {
+            callFivemCallback("callButtonCallback", {callback:button.onUncheck})
+        }
+        button.checked = false
+        this.setState({buttonData:button})
     }
 
     renderButton () {
@@ -113,6 +142,34 @@ export default class Button extends React.Component {
                         onMouseLeave={exitDisableClickZone}
                     />
                 )
+            } else if (this.state.buttonData.rightComponent === "checkbox") {
+                if (this.state.buttonData.checked) {      
+                    let setToUnchecked = this.setToUnchecked
+                    button.push(
+                        <img
+                            key={this.state.buttonData.id+"menuButtonRightComponent"} 
+                            alt="☑"
+                            className={"menuButtonRightComponent checkBox unselectable"}
+                            src={checkBoxCheckedkUrl}
+                            onMouseEnter={enterDisableClickZone}
+                            onMouseLeave={exitDisableClickZone}
+                            onMouseDown={setToUnchecked}
+                        />         
+                    )  
+                } else {
+                    let setToChecked = this.setToChecked
+                    button.push(
+                        <img
+                            key={this.state.buttonData.id+"menuButtonRightComponent"} 
+                            alt="☐"
+                            className={"menuButtonRightComponent checkBox unselectable"}
+                            src={checkBoxBlankUrl}
+                            onMouseEnter={enterDisableClickZone}
+                            onMouseLeave={exitDisableClickZone}
+                            onMouseDown={setToChecked}
+                        />  
+                    )
+                }
             }
         }
         return button

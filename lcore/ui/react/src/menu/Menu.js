@@ -25,6 +25,7 @@ function getDefaultMenu() {
             "mouse":true,
             "buttons":[
                 {text:"Button 1"},
+                {text:"CheckBox", rightComponent:'checkbox'},
                 {text:"list", type:'list', list:["elem 1", "elem 2", "elem 3"]},
                 {text:"Carcolor", rightComponent:"colorPicker", onColorChange:'function jsp'},
                 {text:"button"},

@@ -40,12 +40,13 @@ function menuHandler:create(data)
                     menu.parentMenu = nil
                 end
             end
-            if button.callback then
+            button = utils:setToJsonable(button)
+            --[[if button.callback then
                 button.callback = utils:registerNewStringedFunction(button.callback)
             end
             if button.onColorChange then
                 button.onColorChange = utils:registerNewStringedFunction(button.onColorChange)
-            end
+            end]]--
         end
     end
 
@@ -55,7 +56,17 @@ end
 function menuHandler:openMenu(menu, selectedButton)
     menu.currentButton = selectedButton or menu.currentButton or 0
     local sendedMenu = utils:setToJsonable(utils:copy(menu))
-    SetNuiFocus(menu.mouse, menu.mouse)
+
+    if sendedMenu.buttons then
+        for k,button in pairs(sendedMenu.buttons) do
+            if button.checked and type(button.checked)=='string' then
+                debug:print("button.checked = ",button.checked, type(button.checked))
+                button.checked = utils:getStringedFunction(button.checked)()
+                debug:print(button.checked)
+            end
+        end
+    end
+    SetNuiFocus(sendedMenu.mouse, sendedMenu.mouse)
     SendNUIMessage({action="setMenu", menuData=sendedMenu})
 end
 

@@ -24,7 +24,7 @@ function utils:setToJsonable(obj)
         if type(v) == "table" then
             obj[k] = self:setToJsonable(v)
         elseif type(v) == "function" then
-            obj[k]=nil
+            obj[k]=utils:registerNewStringedFunction(obj[k])
         end
     end
     return obj
