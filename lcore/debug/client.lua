@@ -83,7 +83,8 @@ Citizen.CreateThreadNow(function ()
             mouse=true,
             buttons={
                 {text="CreateVehicle", callback = function ()
-                    local veh = vehicleHandler:create()
+                    local veh = vehicleHandler:create({model=utils:randomInTable(vehiclesInfo).modelName})
+                    SetPedIntoVehicle(GetPlayerPed(-1), veh.id, -1)
                     debug:PrintTable(veh)
                 end},
                 {

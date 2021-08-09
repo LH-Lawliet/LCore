@@ -65,3 +65,9 @@ function utils:tableMerge(t1, t2)
     end
     return t1
 end
+
+function utils:randomInTable(tb)
+    local keys = {}
+    for k in pairs(tb) do table.insert(keys, k) end
+    return tb[keys[math.random(#keys)]]
+end

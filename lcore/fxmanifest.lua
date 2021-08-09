@@ -27,6 +27,7 @@ shared_scripts {
 client_scripts {
     'config/client.lua',
     'config/label.lua',
+    'config/vehicleList.lua',
 
     'utils/client.lua',
 

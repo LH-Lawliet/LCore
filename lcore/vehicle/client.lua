@@ -1,5 +1,9 @@
 vehicleHandler = {}
 
+function getRandomVehicleName()
+    
+end
+
 function vehicleHandler:create(data) 
     local vehicle = {}
     data = data or {}
