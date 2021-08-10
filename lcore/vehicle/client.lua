@@ -1,7 +1,7 @@
 vehicleHandler = {}
 
-function getRandomVehicleName()
-    
+function getRandomVehicleModel()
+    return utils:randomInTable(vehiclesInfo).modelName
 end
 
 function vehicleHandler:create(data) 

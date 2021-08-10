@@ -170,6 +170,16 @@ export default class Button extends React.Component {
                         />  
                     )
                 }
+            } else if (this.state.buttonData.rightComponent === "img") {
+                let url = this.state.buttonData.rightImgUrl
+                button.push(
+                    <img
+                        key={this.state.buttonData.id+"menuButtonRightComponent"} 
+                        alt="rightImg"
+                        className={"menuButtonRightComponent unselectable"}
+                        src={url}
+                    />  
+                )
             }
         }
         return button

@@ -75,23 +75,54 @@ Citizen.CreateThreadNow(function ()
             }
         })
 
-        local vehicleMenu = menuHandler:create({
+
+        local engineLevelMenu = menuHandler:create({
             banner={
-                title="Debug"
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
             },
-            subTitle=_("chooseAnOption"),
-            mouse=true,
+            subTitle=GetLabelText("CMOD_ENG_1"),
             buttons={
-                {text="CreateVehicle", callback = function ()
-                    local veh = vehicleHandler:create({model=utils:randomInTable(vehiclesInfo).modelName})
-                    SetPedIntoVehicle(GetPlayerPed(-1), veh.id, -1)
-                    debug:PrintTable(veh)
-                end},
+                {text=_("stockEngine"), rightComponent="img", rightImgUrl="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_garage_icon_a.png"},
+                {text=GetLabelText("CMOD_ENG_2")},
+                {text=GetLabelText("CMOD_ENG_3")},
+                {text=GetLabelText("CMOD_ENG_4")},
+                {text=GetLabelText("CMOD_ENG_5")},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        local brakeLevelMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("brakes"),
+            buttons={
+                {text=GetLabelText("CMOD_BRA_0")},
+                {text=GetLabelText("CMOD_BRA_1")},
+                {text=GetLabelText("CMOD_BRA_2")},
+                {text=GetLabelText("CMOD_BRA_3")},
+                {text=GetLabelText("CMOD_BRA_4")},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        local customs = menuHandler:create({
+            banner={
+                title="Debug",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            mouse=true,
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text=GetLabelText("CMOD_ENG_1"), subMenu=engineLevelMenu, rightText=">"},
+                {text=_("brakes"), subMenu=brakeLevelMenu, rightText=">"},
+
                 {
                     text="Carcolor", 
                     rightComponent="colorPicker", 
                     onColorChange=function (data)
-                        debug:print('COLOR CHANGE')
                         local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
                         if vehicle~=0 then
                             debug:print('SetVehicleCustomPrimaryColour',vehicle, data.r, data.g, data.b)
@@ -117,6 +148,23 @@ Citizen.CreateThreadNow(function ()
                         ToggleVehicleMod(vehicle, 22, false)
                     end
                 },
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+
+        local vehicleMenu = menuHandler:create({
+            banner={
+                title="Debug"
+            },
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text="CreateVehicle", callback = function ()
+                    local veh = vehicleHandler:create({model=getRandomVehicleModel()})
+                    SetPedIntoVehicle(GetPlayerPed(-1), veh.id, -1)
+                    debug:PrintTable(veh)
+                end},
+                {text="Custom", subMenu = customs},
                 {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
             }
         })
