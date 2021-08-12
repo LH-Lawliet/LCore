@@ -19,6 +19,11 @@ function blipHandler:create(data)
     blip.display = data.display or 2 -- see https://docs.fivem.net/natives/?_0x9029B2F3DA924928
     blip.text = data.text
     blip.disabled = data.disabled
+    blip.rotation = data.rotation or 0
+    blip.shrink = data.shrink
+    blip.highDetails = data.highDetails
+    blip.route = data.route
+    blip.routeColor = data.routeColor or blip.color
     if not blip.disabled then
         blip:show()
     end
@@ -36,7 +41,12 @@ function blipHandler:show()
     SetBlipAsShortRange(self.id, self.shortRange)
     SetBlipBright(self.id, self.bright)
     SetBlipDisplay(self.id, self.display)
-
+    SetBlipRotation(self.id, self.rotation)
+    SetBlipShrink(self.id, self.shrink)
+    SetBlipHighDetail(self.id, self.highDetails)
+    SetBlipRoute(self.id, self.route)
+    SetBlipRouteColour(self.id, self.routeColor)
+    
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(self.text)
     EndTextCommandSetBlipName(self.id)

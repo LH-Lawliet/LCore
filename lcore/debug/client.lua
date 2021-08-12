@@ -203,7 +203,6 @@ Citizen.CreateThreadNow(function ()
             end
             spawnedVehicle = vehicleHandler:create({model=veh or getRandomVehicleModel()})
             SetPedIntoVehicle(myPed:GetPlayerPed(), spawnedVehicle.id, -1)
-
         end)
 
 
