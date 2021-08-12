@@ -194,6 +194,16 @@ Citizen.CreateThreadNow(function ()
                 menuHandler:openMenu(menu)
             end
         end)
+
+
+        blipHandler:create({
+            pos = config.cayoPericoPos,
+            text = "Cayo Perico"
+        })
+        blipHandler:create({
+            pos = config.defaultPos,
+            text = "Los Santos"
+        })
     end
 end)
 

@@ -31,9 +31,8 @@ client_scripts {
 
     'utils/client.lua',
 
-    'map/ipl.lua',
-
     'ui/menu.lua',
+    'ui/blip.lua',
     'ui/notification.lua',
 
     'debug/client.lua',
@@ -42,7 +41,9 @@ client_scripts {
 
     'player/client.lua',
     'spawn/client.lua',
-    'vehicle/client.lua'
+    'vehicle/client.lua',
+
+    'map/ipl.lua',
 }
 
 server_scripts {
