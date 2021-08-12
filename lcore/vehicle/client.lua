@@ -12,7 +12,7 @@ function vehicleHandler:create(data)
 
     data = data or {}
     vehicle.pos = data.pos or myPed.pedCoords
-    vehicle.rot = data.rot or vector3(myPed.pedHeading, 0.0, 0.0)
+    vehicle.rot = data.rot --or vector3(myPed.pedHeading, 180.0, 179.0)
     vehicle.setVehicleOnGroundProperly = data.setVehicleOnGroundProperly
     if vehicle.setVehicleOnGroundProperly == nil then
         vehicle.setVehicleOnGroundProperly = true
@@ -38,7 +38,9 @@ function vehicleHandler:create(data)
     end
 
     vehicle.id = CreateVehicle(vehicle.modelHashed, vehicle.pos.x, vehicle.pos.y, vehicle.pos.z, 0.0, vehicle.isNetwork)
-    SetEntityRotation(vehicle.id, vehicle.rot.x, vehicle.rot.y, vehicle.rot.z, vehicle.rotOrder)
+    if vehicle.rot then
+        SetEntityRotation(vehicle.id, vehicle.rot.x, vehicle.rot.y, vehicle.rot.z, vehicle.rotOrder)
+    end
     if (vehicle.setVehicleOnGroundProperly) then
         SetVehicleOnGroundProperly(vehicle.id)
     end

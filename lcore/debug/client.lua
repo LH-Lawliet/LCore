@@ -196,6 +196,27 @@ Citizen.CreateThreadNow(function ()
         end)
 
 
+        RegisterCommand("car", function(source, args, rawCommand)
+            local veh = args[1]
+            if spawnedVehicle then
+                spawnedVehicle:delete()
+            end
+            spawnedVehicle = vehicleHandler:create({model=veh or getRandomVehicleModel()})
+            SetPedIntoVehicle(myPed:GetPlayerPed(), spawnedVehicle.id, -1)
+
+        end)
+
+
+        RegisterCommand("fixCar", function()
+            local entity = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
+            SetVehicleEngineHealth(entity, 999.99999999)
+            SetVehiclePetrolTankHealth(entity, 999.99999999)
+            SetVehicleFixed(entity)
+            WashDecalsFromVehicle(entity, 1.0)
+            SetVehicleDirtLevel(entity, 0.0)
+        end)
+
+
         blipHandler:create({
             pos = config.cayoPericoPos,
             text = "Cayo Perico"

@@ -38,6 +38,7 @@ end
 if config.enableCayoPerico then
     Citizen.CreateThread(function ()
         local inPerrico = false
+        iplManagement:unloadCayoPerico() 
         while true do
             Wait(config.cayoPericoDistanceCheckDelay)
             if myPed and myPed.pedCoords then
@@ -47,7 +48,7 @@ if config.enableCayoPerico then
                         inPerrico = true
                     end
                 else 
-                    if inPerrico then
+                    if inPerrico ~= false then
                         iplManagement:unloadCayoPerico()
                         inPerrico = false
                     end
