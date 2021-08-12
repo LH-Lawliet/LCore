@@ -1,4 +1,5 @@
 myPed = nil
+
 Citizen.CreateThreadNow(function ()
     while true do
         Citizen.Wait(50)

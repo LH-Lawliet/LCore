@@ -31,6 +31,8 @@ client_scripts {
 
     'utils/client.lua',
 
+    'map/ipl.lua',
+
     'ui/menu.lua',
     'ui/notification.lua',
 

@@ -1,4 +1,5 @@
 pedHandler = {}
+pedHandler.__index = pedHandler
 
 function pedHandler:create(data)
     if not data.pos then

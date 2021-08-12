@@ -1,4 +1,5 @@
 local menu = nil
+local spawnedVehicle = nil
 
 Citizen.CreateThreadNow(function ()
     if config.debug == 1 then
@@ -76,6 +77,8 @@ Citizen.CreateThreadNow(function ()
         })
 
 
+        local ownedLogo = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_garage_icon_a.png"
+
         local engineLevelMenu = menuHandler:create({
             banner={
                 title="",
@@ -83,7 +86,7 @@ Citizen.CreateThreadNow(function ()
             },
             subTitle=GetLabelText("CMOD_ENG_1"),
             buttons={
-                {text=_("stockEngine"), rightComponent="img", rightImgUrl="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_garage_icon_a.png"},
+                {text=_("stockEngine"), rightComponent="img", rightImgUrl=ownedLogo},
                 {text=GetLabelText("CMOD_ENG_2")},
                 {text=GetLabelText("CMOD_ENG_3")},
                 {text=GetLabelText("CMOD_ENG_4")},
@@ -123,7 +126,7 @@ Citizen.CreateThreadNow(function ()
                     text="Carcolor", 
                     rightComponent="colorPicker", 
                     onColorChange=function (data)
-                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        local vehicle = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
                         if vehicle~=0 then
                             debug:print('SetVehicleCustomPrimaryColour',vehicle, data.r, data.g, data.b)
                             SetVehicleCustomPrimaryColour(vehicle, data.r, data.g, data.b)
@@ -133,18 +136,18 @@ Citizen.CreateThreadNow(function ()
                 {
                     text="Xenon", rightComponent="checkbox", 
                     checked = function () 
-                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        local vehicle = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
                         if (IsToggleModOn(vehicle,22)) then
                             return true
                         end
                         return false
                     end,
                     onCheck=function ()
-                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        local vehicle = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
                         ToggleVehicleMod(vehicle, 22, true)
                     end,
                     onUncheck= function ()
-                        local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                        local vehicle = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
                         ToggleVehicleMod(vehicle, 22, false)
                     end
                 },
@@ -152,17 +155,18 @@ Citizen.CreateThreadNow(function ()
             }
         })
 
-
         local vehicleMenu = menuHandler:create({
             banner={
                 title="Debug"
             },
             subTitle=_("chooseAnOption"),
             buttons={
-                {text="CreateVehicle", callback = function ()
-                    local veh = vehicleHandler:create({model=getRandomVehicleModel()})
-                    SetPedIntoVehicle(GetPlayerPed(-1), veh.id, -1)
-                    debug:PrintTable(veh)
+                {text="CreateRandomVehicle", callback = function ()
+                    if spawnedVehicle then
+                        spawnedVehicle:delete()
+                    end
+                    spawnedVehicle = vehicleHandler:create({model=getRandomVehicleModel()})
+                    SetPedIntoVehicle(myPed:GetPlayerPed(), spawnedVehicle.id, -1)
                 end},
                 {text="Custom", subMenu = customs},
                 {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
@@ -178,6 +182,9 @@ Citizen.CreateThreadNow(function ()
                 {text="Notification", rightText=">", subMenu = notifcationMenu},
                 {text="Ped", rightText=">", subMenu = pedMenu},
                 {text="Vehicle", rightText=">", subMenu = vehicleMenu},
+                {text="GoToPerico", callback = function()
+                    myPed:setCoordsNoOffset(config.cayoPericoPos)
+                end},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })

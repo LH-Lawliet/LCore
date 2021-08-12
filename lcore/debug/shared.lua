@@ -16,8 +16,12 @@ function debug:PrintTable(table, indentation)
         for k, v in pairs(table) do
             formatting = string.rep("  ", indentation) .. k .. ": "
             if type(v) == "table" then
-                print(formatting)
-                self:PrintTable(v, indentation + 1)
+                if indentation > 10 then
+                    print(formatting.."table too far... (probably infinite loop due to class)")
+                else
+                    print(formatting)
+                    self:PrintTable(v, indentation + 1)
+                end
             elseif type(v) == "boolean" then
                 if v then
                     print(formatting .. "true")

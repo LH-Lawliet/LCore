@@ -1,4 +1,5 @@
 notificationHandler = {}
+notificationHandler.__index = notificationHandler
 
 function notificationHandler:create(data)
     if type(data) == "string" then
@@ -42,5 +43,9 @@ function notificationHandler:create(data)
         end
     end
 
-    return EndTextCommandThefeedPostTicker(data.flash or false, true)
+    local notification = {}
+    setmetatable(notification, notificationHandler)
+    notification.id = EndTextCommandThefeedPostTicker(data.flash or false, true)
+
+    return notification
 end

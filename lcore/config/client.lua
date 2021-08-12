@@ -5,3 +5,6 @@ config.defaultPos = {x=-1.0, y=33.8, z=71.6, h=167.0}
 config.updatePedDelay = 200
 config.defaultCallbackPressedDelay = 100
 config.defaultMaxModelLoading = 500
+config.enableCayoPerico = true
+config.cayoPericoDistanceCheckDelay = 5000
+config.cayoPericoPos = vector3(4840.571, -5174.425, 2.0)

@@ -1,6 +1,6 @@
 playerPedClass = {}
+playerPedClass.__index = playerPedClass
 
-myPed = nil
 
 function playerPedClass:create(model,pos)
     local heading = config.defaultPos.h

@@ -1,4 +1,6 @@
 vehicleHandler = {}
+vehicleHandler.__index = vehicleHandler
+
 
 function getRandomVehicleModel()
     return utils:randomInTable(vehiclesInfo).modelName
@@ -6,6 +8,8 @@ end
 
 function vehicleHandler:create(data) 
     local vehicle = {}
+    setmetatable(vehicle,vehicleHandler)
+
     data = data or {}
     vehicle.pos = data.pos or myPed.pedCoords
     vehicle.rot = data.rot or vector3(myPed.pedHeading, 0.0, 0.0)
@@ -19,8 +23,7 @@ function vehicleHandler:create(data)
     vehicle.maxLoading = data.maxLoading or config.defaultMaxModelLoading
     vehicle.isNetwork = data.isNetwork or false
     
-    vehicle.modelHashed = GetHashKey(vehicle.model),
-    setmetatable(vehicle,vehicleHandler)
+    vehicle.modelHashed = GetHashKey(vehicle.model)
 
     local x = 0
     RequestModel(vehicle.modelHashed)
@@ -42,8 +45,21 @@ function vehicleHandler:create(data)
 
     SetModelAsNoLongerNeeded(vehicle.modelHashed)
 
-    vehicle.data = vehicleHandler:getVehicleData(vehicle.id)
+    vehicle.data = vehicle:getVehicleData()
+    debug:PrintTable(vehicle.data)
     return vehicle
+end
+
+function vehicleHandler:delete() 
+    local request = NetworkRequestControlOfEntity(self.id)
+    if request then
+        SetEntityAsNoLongerNeeded(self.id)
+        DeleteEntity(self.id)
+        self = nil
+        return true
+    end
+    debug:print("Request of entity control failed")
+    return false
 end
 
 function vehicleHandler:getVehicleData(vehicleID)
