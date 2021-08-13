@@ -215,6 +215,32 @@ Citizen.CreateThreadNow(function ()
             SetVehicleDirtLevel(entity, 0.0)
         end)
 
+        RegisterCommand("goToMarker", function()
+            local Waypoint = GetFirstBlipInfoId(8)
+            if Waypoint ~= 0 then
+                local coords = Citizen.InvokeNative(0xFA7C7F0AADF25D09, Waypoint, Citizen.ResultAsVector())
+                myPed:setCoordsNoOffset(vector3(coords.x, coords.y, coords.z))
+
+                local z = 0.0
+                
+                local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, z, false)
+                while not retval do
+                    Wait(0)
+                    z = z+5
+                    retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, z, false)
+                    myPed:setCoordsNoOffset(vector3(coords.x, coords.y, z))
+                    if z > 1000 then
+                        notificationHandler:create({mainText="Le sol n'a pas été trouvé", color=90})
+                        break
+                    end
+                end
+
+                myPed:setCoordsNoOffset(vector3(coords.x, coords.y, groundZ))
+            else
+                notificationHandler:create({mainText="Aucun marqueur trouvé", color=90})
+            end
+        end)
+
 
         blipHandler:create({
             pos = config.cayoPericoPos,

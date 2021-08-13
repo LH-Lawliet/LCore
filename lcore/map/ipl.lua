@@ -24,8 +24,8 @@ function iplManagement:unloadCayoPerico()
     SetToggleMinimapHeistIsland(false)
 
     -- misc natives
-    --SetAiGlobalPathNodesType(true) -- don't disable it check at https://docs.fivem.net/natives/?_0xF74B1FFA4A15FBEA
-    --Citizen.InvokeNative(0x53797676AD34A9AA, false)    
+    SetAiGlobalPathNodesType(false) -- don't disable it check at https://docs.fivem.net/natives/?_0xF74B1FFA4A15FBEA
+    Citizen.InvokeNative(0x53797676AD34A9AA, true)    
     SetScenarioGroupEnabled('Heist_Island_Peds', false)
 
     SetAudioFlag('PlayerOnDLCHeist4Island', false)
