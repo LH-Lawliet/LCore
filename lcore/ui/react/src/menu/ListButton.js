@@ -10,10 +10,8 @@ export default class ListButton extends React.Component {
         super(data);
 
         data.button.list = data.button.list || ["nil"]
-        this.state = {
-            buttonData: data.button,
-            selectedElementId: data.selectedElementId || 0
-        };
+        data.button.selectedElementId = data.button.selectedElementId || 0
+        this.state = data.button
         this.mounted = false
         this.onMouseOver = data.onMouseOver
         
@@ -90,24 +88,24 @@ export default class ListButton extends React.Component {
     }
 
     menuPressSelect() {
-        let button = this.state.buttonData
+        let button = this.state
         if (this.didImMounted() && button && button.callback && this.isSelected()) {
             callFivemCallback("callButtonCallback", button)
         }
     }
 
     getText () {
-        return this.state.buttonData.text
+        return this.state.text
     }
 
     isSelected () {
-        return this.state.buttonData.selected
+        return this.state.selected
     }
 
     menuGoRight() {
-        if (this.state.buttonData.selected) {
+        if (this.state.selected) {
             let nextSelect = this.state.selectedElementId + 1
-            if (nextSelect > (this.state.buttonData.list.length-1)) {
+            if (nextSelect > (this.state.list.length-1)) {
                 nextSelect = 0
             }
             this.setState({selectedElementId:nextSelect})
@@ -115,17 +113,17 @@ export default class ListButton extends React.Component {
     }
 
     menuGoLeft() {
-        if (this.state.buttonData.selected) {
+        if (this.state.selected) {
             let nextSelect = this.state.selectedElementId - 1
             if (nextSelect < 0) {
-                nextSelect = this.state.buttonData.list.length-1
+                nextSelect = this.state.list.length-1
             }
             this.setState({selectedElementId:nextSelect})
         }
     }
 
     getSelectedElementText() {
-        return this.state.buttonData.list[this.state.selectedElementId]
+        return this.state.list[this.state.selectedElementId]
     }
 
     renderButton () {
@@ -136,8 +134,8 @@ export default class ListButton extends React.Component {
             className += " menuSelectedButton"
         }
 
-        if (this.state.buttonData.text) {
-            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
+        if (this.state.text) {
+            button.push(<span key={this.state.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.textStyle}>{this.state.text}</span>)
         }
 
         let selectedText = this.getSelectedElementText()
@@ -150,7 +148,7 @@ export default class ListButton extends React.Component {
 
         button.push(
             <div 
-                key={this.state.buttonData.id+"menuButtonRightTextDiv"} 
+                key={this.state.id+"menuButtonRightTextDiv"} 
                 className = {className+" rightPartListButton"} 
                 onMouseDown= { function () {
                     if (canIClick()) {
@@ -159,7 +157,7 @@ export default class ListButton extends React.Component {
                 }}
             >
                 <img 
-                    key={this.state.buttonData.id+"menuButtonRightTextLeftArrow"} 
+                    key={this.state.id+"menuButtonRightTextLeftArrow"} 
                     alt='leftArrow' 
                     src={leftArrowUrl} 
                     className={className} 
@@ -168,10 +166,10 @@ export default class ListButton extends React.Component {
                     onMouseLeave={exitDisableClickZone} 
                 />
                 <div className="spanContainer">
-                    <span key={this.state.buttonData.id+"menuButtonRightText"}>{selectedText}</span>
+                    <span key={this.state.id+"menuButtonRightText"}>{selectedText}</span>
                 </div>
                 <img 
-                    key={this.state.buttonData.id+"menuButtonRightTextRightArrow"} 
+                    key={this.state.id+"menuButtonRightTextRightArrow"} 
                     alt='rightArrow' 
                     src={rightArrowUrl} 
                     className={className} 

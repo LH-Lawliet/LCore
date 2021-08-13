@@ -19,10 +19,38 @@ function utils:copy(obj)
     return res
 end
 
-function utils:setToJsonable(obj)
+-- Save copied tables in `copies`, indexed by original table.
+function utils:deepcopy(orig, copies)
+    copies = copies or {}
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        if copies[orig] then
+            copy = copies[orig]
+        else
+            copy = {}
+            copies[orig] = copy
+            for orig_key, orig_value in next, orig, nil do
+                copy[self:deepcopy(orig_key, copies)] = self:deepcopy(orig_value, copies)
+            end
+            setmetatable(copy, self:deepcopy(getmetatable(orig), copies))
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function utils:setToJsonable(obj, n)
+    n = n or 0
+    n = n+1
     for k, v in pairs(obj) do
         if type(v) == "table" then
-            obj[k] = self:setToJsonable(v)
+            if n<10 then
+                obj[k] = self:setToJsonable(v,n)
+            else
+                obj[k] = "table too far... (probably infinite loop due to class)"
+            end
         elseif type(v) == "function" then
             obj[k]=utils:registerNewStringedFunction(obj[k])
         end

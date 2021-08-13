@@ -191,7 +191,7 @@ Citizen.CreateThreadNow(function ()
 
         utils:registerControlKey("debugMenu", _("openDebugMenu"), "F6", function ()
             if menu then
-                menuHandler:openMenu(menu)
+                menu:openMenu()
             end
         end)
 
