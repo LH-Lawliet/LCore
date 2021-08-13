@@ -185,6 +185,9 @@ Citizen.CreateThreadNow(function ()
                 {text="GoToPerico", callback = function()
                     myPed:setCoordsNoOffset(config.cayoPericoPos)
                 end},
+                {text="GoToLS", callback = function()
+                    myPed:setCoordsNoOffset(config.defaultPos)
+                end},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
         })
