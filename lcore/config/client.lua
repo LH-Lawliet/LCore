@@ -14,3 +14,5 @@ config.blipUpdateDelay = 5
 config.enableCayoPerico = true
 config.cayoPericoDistanceCheckDelay = 5000
 config.cayoPericoPos = vector3(5151.862, -5095.981, 25.604)
+
+config.updateTimeDelay = 250 -- 0.250sec

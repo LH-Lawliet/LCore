@@ -41,13 +41,18 @@ client_scripts {
 
     'player/client.lua',
     'spawn/client.lua',
+    'weather/client.lua',
     'vehicle/client.lua',
 
     'map/ipl.lua',
 }
 
 server_scripts {
+    'config/server.lua',
+
     'debug/server.lua',
+
+    'weather/server.lua',
 
     'player/server.lua',
 }

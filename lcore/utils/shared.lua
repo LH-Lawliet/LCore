@@ -12,6 +12,18 @@ function utils:round(number, decimals)
     end
 end
 
+
+function utils:toInt(n)
+    local s = tostring(n)
+    local i, j = s:find('%.')
+    if i then
+        return tonumber(s:sub(1, i-1))
+    else
+        return n
+    end
+end
+
+
 function utils:copy(obj)
     if type(obj) ~= 'table' then return obj end
     local res = {}
@@ -98,4 +110,9 @@ function utils:randomInTable(tb)
     local keys = {}
     for k in pairs(tb) do table.insert(keys, k) end
     return tb[keys[math.random(#keys)]]
+end
+
+
+function utils:inverseModulo(a,b)
+    return (a-(a%b))/b
 end
