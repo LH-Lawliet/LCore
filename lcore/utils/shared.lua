@@ -116,3 +116,30 @@ end
 function utils:inverseModulo(a,b)
     return (a-(a%b))/b
 end
+
+function utils:isInTable(toTest, table)
+    if type(toTest) == "table" then
+        for k, tested in pairs(table) do
+            if TableComp(tested, toTest) then
+                return true
+            end
+        end
+        return false
+    else
+        for k, tested in pairs(table) do
+            if tested == toTest then
+                return true
+            end
+        end
+        return false
+    end
+end
+
+
+local charset = {}
+for c = 33, 126  do table.insert(charset, string.char(c)) end
+
+function utils:randomString(length)
+    if not length or length <= 0 then return '' end
+    return self:randomString(length - 1) .. charset[math.random(1, #charset)]
+end

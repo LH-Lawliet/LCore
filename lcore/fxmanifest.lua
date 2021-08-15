@@ -30,6 +30,8 @@ client_scripts {
     'config/vehicleList.lua',
 
     'utils/client.lua',
+    
+    'anticheat/client.lua',
 
     'ui/menu.lua',
     'ui/blip.lua',
@@ -49,6 +51,8 @@ client_scripts {
 
 server_scripts {
     'config/server.lua',
+    'utils/server.lua',
+    'anticheat/server.lua',
 
     'debug/server.lua',
 

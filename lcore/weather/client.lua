@@ -1,6 +1,15 @@
 local msInDay = 86400000
 local timer = msInDay/2 -- timer is in ms
 
+local eventToken = nil
+AddEventHandler("lcore:updateToken", function (token)
+    eventToken = token
+    utils:TriggerServerCallback("lcore:getGameTime", eventToken, {}, function (time)
+        timer = time
+        return
+    end)
+end)
+
 Citizen.CreateThread(function ()
     while true do
         timer = timer+(msInDay/config.dayTime)*config.updateTimeDelay
@@ -32,6 +41,7 @@ end
 RegisterNetEvent("lcore:updateGameTime")
 AddEventHandler("lcore:updateGameTime", function (updatedTimer)
     timer = updatedTimer
+    return
 end)
 
 

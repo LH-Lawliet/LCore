@@ -1,3 +1,4 @@
+--math.randomseed(os.time())
 config = {
     debug = 1,
     resourceName = GetCurrentResourceName(),

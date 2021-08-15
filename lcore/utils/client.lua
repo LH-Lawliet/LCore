@@ -38,3 +38,14 @@ function utils:registerAdvancedControlKey(data)
     end
     RegisterKeyMapping("+"..data.action, data.description or data.action, 'keyboard', data.defaultKey)
 end
+
+function utils:TriggerServerCallback(name, token, data, callback)
+    Citizen.CreateThreadNow(function ()
+        TriggerServerEvent(name, token, data)
+        RegisterNetEvent("callback"..name)
+        AddEventHandler("callback"..name, function (data)
+            callback(data)
+            return
+        end)
+    end)
+end

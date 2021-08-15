@@ -10,3 +10,7 @@ Citizen.CreateThread(function ()
         Wait(config.updateTimeDelay)
     end
 end)
+
+utils:RegisterServerCallback("lcore:getGameTime", function ()
+    return timer
+end)
