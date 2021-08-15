@@ -7,6 +7,7 @@ version '0.0.1'
 
 lua54 'yes'
 
+dependency "yarn"
 
 -- specify the root page, relative to the resource
 ui_page 'ui/react/build/index.html'
@@ -20,13 +21,13 @@ files {
 
 shared_scripts {
     'config/shared.lua',
-    'utils/shared.lua',
     'debug/shared.lua',
+    'utils/shared.lua',
+    'config/label.lua',
 }
 
 client_scripts {
     'config/client.lua',
-    'config/label.lua',
     'config/vehicleList.lua',
 
     'utils/client.lua',
@@ -51,6 +52,8 @@ client_scripts {
 
 server_scripts {
     'config/server.lua',
+    'database/mysql.js',
+    'database/connector.lua',
     'utils/server.lua',
     'anticheat/server.lua',
 
@@ -59,6 +62,7 @@ server_scripts {
     'weather/server.lua',
 
     'player/server.lua',
+    'player/connection.lua',
 }
 
 

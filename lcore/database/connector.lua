@@ -7,10 +7,14 @@ function database:isDatabaseReady()
 end
 
 function database:query(string, variables, callback)
-    return exports[resourceName]:mysqlQuery(string, variables, callback)
+    return exports[resourceName]:mysqlQuery(string, variables or {}, callback)
 end
 
-
-database:query("SELECT * FROM users WHERE ip=?", {"192.168.0.1010"}, function (results)
-    debug:PrintTable(results)
-end)
+function database:querySync(string, variables)
+    local result = nil
+    exports[resourceName]:mysqlQuery(string, variables or {}, function (nResult)
+        result = nResult
+    end)
+    repeat Wait(1) until result~=nil
+    return result
+end

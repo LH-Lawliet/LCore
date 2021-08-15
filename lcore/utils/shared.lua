@@ -138,8 +138,20 @@ end
 
 local charset = {}
 for c = 33, 126  do table.insert(charset, string.char(c)) end
+table.remove(charset, 62) -- remove '^' char
 
 function utils:randomString(length)
     if not length or length <= 0 then return '' end
     return self:randomString(length - 1) .. charset[math.random(1, #charset)]
+end
+
+function utils:stringSplit(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        table.insert(t, str)
+    end
+    return t
 end
