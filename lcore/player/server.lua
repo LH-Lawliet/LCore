@@ -51,6 +51,14 @@ function players:checkIfConnectionGranted(callback)
                 self:createUser()
                 self:checkIfConnectionGranted(callback)
             end
+        elseif #results == 1 then
+            local plyData = results[1]
+            self.userAccount = plyData
+            if not plyData.password then
+                callback("granted")
+            else
+                callback("askForPassword")
+            end
         end
     end)
 end
@@ -66,6 +74,14 @@ function players:createUser()
         self.identifiers['license'] or "null",
         self.identifiers['xbl'] or "null",
         os.time()
+    })
+end
+
+function players:setPassword(password)
+    self.userAccount.password = password
+    database:query("UPDATE users SET password=? WHERE id=?", {
+        password,
+        self.userAccount.id
     })
 end
 

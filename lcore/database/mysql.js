@@ -1,6 +1,5 @@
 // get the client
 const mysql = require('mysql2');
-const { createPool } = require('mysql2/promise');
 let ready = false
 
 exports('isMysqlReady', function() {
@@ -21,7 +20,9 @@ exports('mysqlQuery', function (string, variables, callback) {
     connection.query(string, variables, function(err, results, fields) {
         console.log(this.sql)
         if (err) throw err;
-        callback(results)
+        if (callback) {
+            callback(results)
+        }
     })
 })
 

@@ -52,6 +52,10 @@ client_scripts {
 
 server_scripts {
     'config/server.lua',
+
+    'crypto/bcrypt.js',
+    'crypto/connector.lua',
+
     'database/mysql.js',
     'database/connector.lua',
     'utils/server.lua',

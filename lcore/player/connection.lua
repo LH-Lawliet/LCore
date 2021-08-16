@@ -1,3 +1,5 @@
+local exemplePassword = ""
+
 AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
     local source = source
 
@@ -68,6 +70,52 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                     }
                 },
             })
+        elseif status == "askForPassword" then
+            player:setPassword(exemplePassword)
+
+            deferrals.presentCard({
+                type = "AdaptiveCard",
+                version = "1.3",
+                body = {
+                    {
+                        type = "TextBlock",
+                        text = _("password"),
+                        weight = "bolder",
+                        size = "large"
+                    },
+                    {
+                        type = "TextBlock",
+                        text = _("forgetPasswordAdvice")
+                    },
+                    {
+                        type = "Input.Text",
+                        id = "passwordInput",
+                        placeholder = "Password",
+                        maxLength = 18
+                    },
+                },
+                actions = {
+                    {
+                        type = "Action.Submit",
+                        title = _("validate"),
+                    },
+                    {
+                        type = "Action.OpenUrl",
+                        title = "Discord",
+                        url = config.discordUrl
+                    }
+                },
+            }, function (data, rawData)
+                crypto:compareCrypto(data.passwordInput or "", player.userAccount.password, function (valid)
+                    if valid then
+                        deferrals.done()
+                    else
+                        CancelEvent()
+                        setKickReason(_("wrongPassword"))
+                        deferrals.done(_("wrongPassword"))
+                    end
+                end)
+            end)
         elseif status == "granted" then
             deferrals.done()
         end
@@ -80,4 +128,9 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
         name = GetPlayerName(source)
     })
     ]]--
+end)
+
+crypto:encrypt("test", 8, function (hashed)
+    exemplePassword = hashed
+    --debug:print(hashed)
 end)
