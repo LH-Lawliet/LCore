@@ -1,5 +1,3 @@
-local exemplePassword = ""
-
 AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
     local source = source
 
@@ -71,8 +69,6 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                 },
             })
         elseif status == "askForPassword" then
-            player:setPassword(exemplePassword)
-
             deferrals.presentCard({
                 type = "AdaptiveCard",
                 version = "1.3",
@@ -128,9 +124,4 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
         name = GetPlayerName(source)
     })
     ]]--
-end)
-
-crypto:encrypt("test", 8, function (hashed)
-    exemplePassword = hashed
-    --debug:print(hashed)
 end)
