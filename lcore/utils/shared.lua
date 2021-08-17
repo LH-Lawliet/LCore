@@ -3,6 +3,14 @@ utils = {
 }
 
 
+function utils:vect3ToTable(vect)
+    return {x=vect.x,y=vect.y,z=vect.z}
+end
+
+function utils:degToRad(deg)
+    return deg*0.01745329
+end
+
 function utils:round(number, decimals)
     if number then
         local mult = 10^(decimals or 0)

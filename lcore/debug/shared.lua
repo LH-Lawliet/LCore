@@ -22,21 +22,11 @@ function debug:PrintTable(table, indentation)
                     print(formatting)
                     self:PrintTable(v, indentation + 1)
                 end
-            elseif type(v) == "boolean" then
-                if v then
-                    print(formatting .. "true")
-                else
-                    print(formatting .. "false")
-                end
-            elseif type(v) == "nil" then
-                print(formatting .. "nil")
-            elseif type(v) == "function" then
-                print(formatting .. "function")
             else
                 print(formatting .. tostring(v) .. " (" .. type(v) .. ")")
             end
         end
     else
-        print("Wrong type to printTable, this is a ".. type(table))
+        print(tostring(table) .. " (" .. type(table) .. ")")
     end
 end

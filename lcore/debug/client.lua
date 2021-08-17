@@ -1,5 +1,6 @@
 local menu = nil
 local spawnedVehicle = nil
+local noClip = nil
 
 Citizen.CreateThreadNow(function ()
     if config.debug == 1 then
@@ -179,6 +180,18 @@ Citizen.CreateThreadNow(function ()
             },
             subTitle=_("chooseAnOption"),
             buttons={
+                {
+                    text="NoClip", rightComponent="checkbox", 
+                    checked = function () 
+                        return noClip
+                    end,
+                    onCheck=function ()
+                        debug:startNoClip()
+                    end,
+                    onUncheck= function ()
+                        noClip = false
+                    end
+                },
                 {text="Notification", rightText=">", subMenu = notifcationMenu},
                 {text="Ped", rightText=">", subMenu = pedMenu},
                 {text="Vehicle", rightText=">", subMenu = vehicleMenu},
@@ -258,4 +271,51 @@ end)
 
 function debug:CopyToClipboard(text)
     SendNUIMessage({copyText = text})
+end
+
+debug:print("cos 90", math.cos(utils:degToRad(90)))
+
+function debug:startNoClip()
+    noClip = true
+    Citizen.CreateThread(function ()
+        myPed:freeze(true)
+        while noClip do
+            Wait(5)
+            local coords = utils:vect3ToTable(myPed.pedCoords)
+            local rot = utils:vect3ToTable(myPed:getRotation())
+            --debug:PrintTable(rot)
+            local distance = 2.5
+            if IsControlPressed(2,32) then
+                coords.x = coords.x+distance*math.cos(utils:degToRad(rot.z+90))
+                coords.y = coords.y+distance*math.sin(utils:degToRad(rot.z+90))
+            elseif IsControlPressed(2,33) then
+                coords.x = coords.x-distance*math.cos(utils:degToRad(rot.z+90))
+                coords.y = coords.y-distance*math.sin(utils:degToRad(rot.z+90))
+            end
+
+            if IsControlPressed(2,34) then
+                coords.x = coords.x-distance*math.cos(utils:degToRad(rot.z))
+                coords.y = coords.y-distance*math.sin(utils:degToRad(rot.z))
+            elseif IsControlPressed(2,35) then
+                coords.x = coords.x-distance*math.cos(utils:degToRad(rot.z+180))
+                coords.y = coords.y-distance*math.sin(utils:degToRad(rot.z+180))
+            end
+
+            if IsControlPressed(2,21) then
+                coords.z = coords.z+distance
+            elseif IsControlPressed(2,36) then
+                coords.z = coords.z-distance
+            end
+
+            if IsControlPressed(2,44) then
+                rot.z = rot.z + distance
+            elseif IsControlPressed(2,51) then
+                rot.z = rot.z - distance
+            end
+
+            --rot.z = rot.z+180
+            myPed:setCoordsNoOffset(coords,rot)
+        end
+        myPed:freeze(false)
+    end)
 end

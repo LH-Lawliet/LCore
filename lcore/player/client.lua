@@ -60,18 +60,30 @@ function playerPedClass:setModel(model)
     SetModelAsNoLongerNeeded(model)
 end
 
-function playerPedClass:setCoordsNoOffset(pos)
+function playerPedClass:setCoordsNoOffset(pos,rot)
     RequestCollisionAtCoord(pos.x, pos.y, pos.z)
-    SetEntityCoordsNoOffset(self.playerPed, pos.x, pos.y, pos.z, false, false, false, true)
+    rot = rot or self:getRotation() or vect3(1.0,1.0,1.0)
+    SetEntityCoordsNoOffset(self.playerPed, pos.x, pos.y, pos.z)
+    self:setRotation(rot)
+    --SetEntityCoordsNoOffset(entity, xPos, yPos, zPos, xAxis, yAxis, zAxis)
+    if type(pos) ~= "vector3" then
+        pos = vector3(pos.x, pos.y, pos.z)
+    end
     self.pedCoords = pos
 end
 
+function playerPedClass:getRotation()
+    return GetEntityRotation(self.playerPed, 2)
+end
+
+function playerPedClass:setRotation(rot)
+    SetEntityRotation(self.playerPed, rot.x, rot.y, rot.z, 2)
+    SetEntityHeading(self.playerPed, rot.z)
+end
+
 function playerPedClass:freeze(state)
-    
     SetPlayerControl(self:GetPlayerId(), not state, false)
-    
     if not freeze then
-        
         if not IsEntityVisible(self.playerPed) then
             SetEntityVisible(self.playerPed, true)
         end
