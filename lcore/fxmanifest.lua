@@ -12,11 +12,16 @@ dependency "yarn"
 -- specify the root page, relative to the resource
 ui_page 'ui/react/build/index.html'
 
+loadscreen 'loadscreen/index.html'
+loadscreen_manual_shutdown 'yes'
+
 -- every client-side file still needs to be added to the resource packfile!
 files {
     'ui/react/build/**/**/*',
     'ui/react/build/**/*',
-    'ui/react/build/*'
+    'ui/react/build/*',
+    'loadscreen/**/*',
+    'loadscreen/*'
 }
 
 shared_scripts {

@@ -86,7 +86,6 @@ function players:setPassword(password)
 end
 
 function players:isWhitelisted()
-    print("I LIKE THAT",self.identifiers['ip'])
     return #database:querySync("SELECT id FROM whitelist WHERE identifier=? OR identifier=? OR identifier=? OR identifier=? OR identifier=? OR identifier=? OR identifier=?", {
         self.identifiers['ip'] or "null",
         self.identifiers['steam'] or "null",

@@ -35,6 +35,10 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
         }
     })
 
+    deferrals.handover({
+        name = GetPlayerName(source)
+    })
+
     player:checkIfConnectionGranted(function (status)
         if status == "notWhitelist" then
             deferrals.presentCard({
