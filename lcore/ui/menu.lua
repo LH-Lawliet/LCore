@@ -54,6 +54,17 @@ function menuHandler:openMenu(selectedButton)
     SendNUIMessage({action="setMenu", menuData=sendedMenu})
 end
 
+
+function menuHandler:openSubMenu(subMenu)
+    local menu = self
+    menu:closeMenu(true)
+    subMenu.parentMenu = menu
+    setmetatable(subMenu,menuHandler)
+    subMenu:openMenu()
+end
+
+
+
 function menuHandler:closeMenu(getState)
     SendNUIMessage({action="closeMenu", getState=getState})
     SetNuiFocus(false, false)
@@ -117,6 +128,37 @@ utils:registerAdvancedControlKey({
     callbackPressedDelay=125,
     callbackPressed=function ()
         SendNUIMessage({action="menuGoDown"})
+    end,
+})
+
+
+utils:registerAdvancedControlKey({
+    action="menuArrowUp",
+    description=_("menuUp"),
+    defaultKey="UP",
+    callbackPressedDelay=125,
+    callbackPressed=function ()
+        SendNUIMessage({action="menuGoUp"})
+    end,
+})
+
+utils:registerAdvancedControlKey({
+    action="menuArrowRight",
+    description=_("menuRight"),
+    defaultKey="RIGHT",
+    callbackPressedDelay=125,
+    callbackPressed=function ()
+        SendNUIMessage({action="menuGoRight"})
+    end,
+})
+
+utils:registerAdvancedControlKey({
+    action="menuArrowLEFT",
+    description=_("menuLeft"),
+    defaultKey="LEFT",
+    callbackPressedDelay=125,
+    callbackPressed=function ()
+        SendNUIMessage({action="menuGoLeft"})
     end,
 })
 

@@ -9,9 +9,9 @@ exports('isMysqlReady', function() {
 // create the connection to database
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: '',
-    database:'fivem',
+    user: 'fivem',
+    password: 'fivemServer',
+    database: 'fivem',
 })
 ready = true
 

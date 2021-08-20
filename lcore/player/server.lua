@@ -1,13 +1,38 @@
-players = {}
+players = {
+    list={}
+}
 players.__index = players
+
+function players:getIdFromSource(src)
+    return players.list[src].userAccount.id
+end
+
+function players:getPlayerFromSource(src)
+    return players.list[src]
+end
+
+function players:createPlayerIfNotSource(src)
+    if not players.list[src] then
+        players:create(src):GetPlayerInDatabase()
+    end
+end
 
 function players:create(src)
     local player = {}
     setmetatable(player,players)
     player.source = src
     player.identifiers = player:getIdentifiers()
+    players.list[source] = player
     return player
 end
+
+AddEventHandler("playerJoining", function (oldSource)
+    local source = source
+    debug:print("change source of",oldSource, "to",source)
+    players.list[source] = utils:copy(players.list[oldSource])
+    players.list[oldSource] = nil
+    collectgarbage("collect")
+end)
 
 function players:getSource()
     return self.source
@@ -31,21 +56,16 @@ function players:getIdentifiers()
 end
 
 function players:checkIfConnectionGranted(callback)
-    database:query("SELECT * FROM users WHERE steam=? OR fivem=? OR discord=? OR live=? OR license=? OR xbl=?", {
-        self.identifiers['steam'] or "",
-        self.identifiers['fivem'] or "",
-        self.identifiers['discord'] or "",
-        self.identifiers['live'] or "",
-        self.identifiers['license'] or "",
-        self.identifiers['xbl'] or ""
-    }, function (results)
+    self:GetPlayerInDatabase(function (results)
         if #results == 0 then
             if config.whitelist then
                 if self:isWhitelisted() then
                     self:createUser()
                     self:checkIfConnectionGranted(callback)
                 else
-                    callback("notWhitelisted")
+                    if callback then
+                        callback("notWhitelisted")
+                    end
                 end
             else
                 self:createUser()
@@ -54,11 +74,32 @@ function players:checkIfConnectionGranted(callback)
         elseif #results == 1 then
             local plyData = results[1]
             self.userAccount = plyData
-            if not plyData.password then
-                callback("granted")
-            else
-                callback("askForPassword")
+            if callback then
+                if not plyData.password then
+                    callback("granted")
+                else
+                    callback("askForPassword")
+                end
             end
+        end
+    end)
+end
+
+function players:GetPlayerInDatabase(callback)
+    database:query("SELECT * FROM users WHERE steam=? OR fivem=? OR discord=? OR live=? OR license=? OR xbl=?", {
+        self.identifiers['steam'] or "",
+        self.identifiers['fivem'] or "",
+        self.identifiers['discord'] or "",
+        self.identifiers['live'] or "",
+        self.identifiers['license'] or "",
+        self.identifiers['xbl'] or ""
+    }, function (results)
+        if #results == 1 then
+            local plyData = results[1]
+            self.userAccount = plyData
+        end
+        if callback then
+            callback(results)
         end
     end)
 end
@@ -96,3 +137,8 @@ function players:isWhitelisted()
         self.identifiers['xbl'] or "null"
     }) ~= 0
 end 
+
+
+function players:getVipLevel()
+    return self.userAccount.vipLevel
+end

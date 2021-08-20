@@ -199,7 +199,7 @@ Citizen.CreateThreadNow(function ()
                     myPed:setCoordsNoOffset(config.cayoPericoPos)
                 end},
                 {text="GoToLS", callback = function()
-                    myPed:setCoordsNoOffset(config.defaultPos)
+                    myPed:setCoordsNoOffset(config.losSantosPos)
                 end},
                 {text=_("close"), textStyle={color="rgba(255,0,0)"}, close=true}
             }
@@ -273,8 +273,6 @@ function debug:CopyToClipboard(text)
     SendNUIMessage({copyText = text})
 end
 
-debug:print("cos 90", math.cos(utils:degToRad(90)))
-
 function debug:startNoClip()
     noClip = true
     Citizen.CreateThread(function ()
@@ -283,7 +281,7 @@ function debug:startNoClip()
             Wait(5)
             local coords = utils:vect3ToTable(myPed.pedCoords)
             local rot = utils:vect3ToTable(myPed:getRotation())
-            --debug:PrintTable(rot)
+
             local distance = 2.5
             if IsControlPressed(2,32) then
                 coords.x = coords.x+distance*math.cos(utils:degToRad(rot.z+90))
@@ -313,7 +311,6 @@ function debug:startNoClip()
                 rot.z = rot.z - distance
             end
 
-            --rot.z = rot.z+180
             myPed:setCoordsNoOffset(coords,rot)
         end
         myPed:freeze(false)

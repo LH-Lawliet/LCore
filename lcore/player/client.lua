@@ -22,6 +22,10 @@ function playerPedClass:create(model,pos)
     
     NetworkResurrectLocalPlayer(pedInfo.pedCoords.x, pedInfo.pedCoords.y, pedInfo.pedCoords.z, pedInfo.pedHeading, true, true, false)
 
+    while not HasCollisionLoadedAroundEntity(pedInfo.playerPed) do
+        Wait(10)
+    end
+
     self:freeze(false)
 
     ShutdownLoadingScreen()

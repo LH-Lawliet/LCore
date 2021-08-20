@@ -3,7 +3,7 @@ vehicleHandler.__index = vehicleHandler
 
 
 function getRandomVehicleModel()
-    return utils:randomInTable(vehiclesInfo).modelName
+    return utils:randomInTable(config.vehiclesInfo).modelName
 end
 
 function vehicleHandler:create(data) 

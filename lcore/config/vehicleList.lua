@@ -17,7 +17,7 @@ local fullyElectric = {
     'électrique',
 }
 
-vehiclesInfo = {
+config.vehiclesInfo = {
     ["-713569950"] = {
         modelName = 'bus',
         fuelTypes = allFuel,

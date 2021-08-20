@@ -11,7 +11,7 @@ export default class ListButton extends React.Component {
 
         data.button.list = data.button.list || ["nil"]
         data.button.selectedElementId = data.button.selectedElementId || 0
-        this.state = data.button
+        this.state = {'buttonData':data.button}
         this.mounted = false
         this.onMouseOver = data.onMouseOver
         
@@ -88,54 +88,64 @@ export default class ListButton extends React.Component {
     }
 
     menuPressSelect() {
-        let button = this.state
+        let button = this.state.buttonData
         if (this.didImMounted() && button && button.callback && this.isSelected()) {
             callFivemCallback("callButtonCallback", button)
         }
     }
 
     getText () {
-        return this.state.text
+        return this.state.buttonData.text
     }
 
     isSelected () {
-        return this.state.selected
+        return this.state.buttonData.selected
     }
 
     menuGoRight() {
-        if (this.state.selected) {
-            let nextSelect = this.state.selectedElementId + 1
-            if (nextSelect > (this.state.list.length-1)) {
+        if (this.state.buttonData.selected) {
+            let nextSelect = this.state.buttonData.selectedElementId + 1
+            if (nextSelect > (this.state.buttonData.list.length-1)) {
                 nextSelect = 0
             }
-            this.setState({selectedElementId:nextSelect})
+            if (this.state.buttonData.onIndexChange) {
+                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':this.state.buttonData.list[nextSelect]})
+            }
+            let button = this.state.buttonData
+            button.selectedElementId = nextSelect
+            this.setState({buttonData:button})
         }
     }
 
     menuGoLeft() {
-        if (this.state.selected) {
-            let nextSelect = this.state.selectedElementId - 1
+        if (this.state.buttonData.selected) {
+            let nextSelect = this.state.buttonData.selectedElementId - 1
             if (nextSelect < 0) {
-                nextSelect = this.state.list.length-1
+                nextSelect = this.state.buttonData.list.length-1
             }
-            this.setState({selectedElementId:nextSelect})
+            if (this.state.buttonData.onIndexChange) {
+                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':this.state.buttonData.list[nextSelect]})
+            }
+            let button = this.state.buttonData
+            button.selectedElementId = nextSelect
+            this.setState({buttonData:button})
         }
     }
 
     getSelectedElementText() {
-        return this.state.list[this.state.selectedElementId]
+        return this.state.buttonData.list[this.state.buttonData.selectedElementId]
     }
 
     renderButton () {
         let button = []
 
         let className = "unselectable"
-        if (this.isSelected()) {
+        /*if (this.isSelected()) {
             className += " menuSelectedButton"
-        }
+        }*/
 
-        if (this.state.text) {
-            button.push(<span key={this.state.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.textStyle}>{this.state.text}</span>)
+        if (this.state.buttonData.text) {
+            button.push(<span key={this.state.buttonData.id+"menuButtonLeftText"} className={className+" menuButtonLeftText"} style={this.state.buttonData.textStyle}>{this.state.buttonData.text}</span>)
         }
 
         let selectedText = this.getSelectedElementText()
@@ -148,7 +158,7 @@ export default class ListButton extends React.Component {
 
         button.push(
             <div 
-                key={this.state.id+"menuButtonRightTextDiv"} 
+                key={this.state.buttonData.id+"menuButtonRightTextDiv"} 
                 className = {className+" rightPartListButton"} 
                 onMouseDown= { function () {
                     if (canIClick()) {
@@ -157,7 +167,7 @@ export default class ListButton extends React.Component {
                 }}
             >
                 <img 
-                    key={this.state.id+"menuButtonRightTextLeftArrow"} 
+                    key={this.state.buttonData.id+"menuButtonRightTextLeftArrow"} 
                     alt='leftArrow' 
                     src={leftArrowUrl} 
                     className={className} 
@@ -166,10 +176,10 @@ export default class ListButton extends React.Component {
                     onMouseLeave={exitDisableClickZone} 
                 />
                 <div className="spanContainer">
-                    <span key={this.state.id+"menuButtonRightText"}>{selectedText}</span>
+                    <span key={this.state.buttonData.id+"menuButtonRightText"}>{selectedText}</span>
                 </div>
                 <img 
-                    key={this.state.id+"menuButtonRightTextRightArrow"} 
+                    key={this.state.buttonData.id+"menuButtonRightTextRightArrow"} 
                     alt='rightArrow' 
                     src={rightArrowUrl} 
                     className={className} 

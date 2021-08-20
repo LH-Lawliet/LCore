@@ -7,7 +7,7 @@ version '0.0.1'
 
 lua54 'yes'
 
-dependency "yarn"
+--dependency "yarn"
 
 -- specify the root page, relative to the resource
 ui_page 'ui/react/build/index.html'
@@ -72,6 +72,8 @@ server_scripts {
 
     'player/server.lua',
     'player/connection.lua',
+
+    'spawn/server.lua',
 }
 
 
