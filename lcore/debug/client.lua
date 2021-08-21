@@ -120,8 +120,8 @@ Citizen.CreateThreadNow(function ()
             mouse=true,
             subTitle=_("chooseAnOption"),
             buttons={
-                {text=GetLabelText("CMOD_ENG_1"), subMenu=engineLevelMenu, rightText=">"},
-                {text=_("brakes"), subMenu=brakeLevelMenu, rightText=">"},
+                {text=GetLabelText("CMOD_ENG_1"), subMenu=engineLevelMenu, rightLogo=">"},
+                {text=_("brakes"), subMenu=brakeLevelMenu, rightLogo=">"},
 
                 {
                     text="Carcolor", 
@@ -192,9 +192,9 @@ Citizen.CreateThreadNow(function ()
                         noClip = false
                     end
                 },
-                {text="Notification", rightText=">", subMenu = notifcationMenu},
-                {text="Ped", rightText=">", subMenu = pedMenu},
-                {text="Vehicle", rightText=">", subMenu = vehicleMenu},
+                {text="Notification", rightLogo=">", subMenu = notifcationMenu},
+                {text="Ped", rightLogo=">", subMenu = pedMenu},
+                {text="Vehicle", rightLogo=">", subMenu = vehicleMenu},
                 {text="GoToPerico", callback = function()
                     myPed:setCoordsNoOffset(config.cayoPericoPos)
                 end},

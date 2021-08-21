@@ -16,7 +16,9 @@ function menuHandler:create(data)
                 end
             end
             if button.subMenu then
+                debug:print("subMenu creation")
                 button.callback = function ()
+                    debug:print("oui")
                     menu:closeMenu(true)
                     button.subMenu.parentMenu = menu
                     setmetatable(button.subMenu,menuHandler)
@@ -28,6 +30,11 @@ function menuHandler:create(data)
                     menu:back()
                 end
             end
+            if button.hardBack then
+                button.callback = function ()
+                    menu:hardBack()
+                end
+            end
         end
     end
 
@@ -35,14 +42,12 @@ function menuHandler:create(data)
 end
 
 function menuHandler:openMenu(selectedButton)
-    local menu = self
-    menu.currentButton = selectedButton or menu.currentButton or 0
-    local sendedMenu = utils:deepcopy(menu) --utils:copy(menu)
+    self.currentButton = selectedButton or self.currentButton or 0
+    local sendedMenu = utils:deepcopy(self) --utils:copy(self)
     sendedMenu.parentMenu = nil
     if sendedMenu.buttons then
         for k,button in pairs(sendedMenu.buttons) do
             if button.checked and type(button.checked)=='function' then
-                debug:print("button.checked = ",button.checked, type(button.checked))
                 button.checked = button.checked()
             end
             button.subMenu = nil
@@ -56,13 +61,11 @@ end
 
 
 function menuHandler:openSubMenu(subMenu)
-    local menu = self
-    menu:closeMenu(true)
-    subMenu.parentMenu = menu
+    self:closeMenu(true)
+    subMenu.parentMenu = self
     setmetatable(subMenu,menuHandler)
     subMenu:openMenu()
 end
-
 
 
 function menuHandler:closeMenu(getState)
@@ -84,6 +87,13 @@ function menuHandler:back()
     self.parentMenu:openMenu()
 end
 
+function menuHandler:hardBack()
+    self:closeMenu()
+    self.parentMenu:openMenu()
+    self = nil
+    collectgarbage("collect")
+end
+
 function menuHandler:mergeFromJsonified(jsonified)
     self.currentButton = jsonified.currentButton
     for k, button in pairs(jsonified.buttons) do
@@ -103,13 +113,10 @@ RegisterNUICallback('callButtonCallback', function(data, cb)
     return cb({error="No callbackName given"})
 end)
 
-
 RegisterNUICallback('updateMenuState', function(data, cb)
     callbackMenu = data
     return cb("ok")
 end)
-
-
 
 utils:registerAdvancedControlKey({
     action="menuArrowUp",
@@ -130,7 +137,6 @@ utils:registerAdvancedControlKey({
         SendNUIMessage({action="menuGoDown"})
     end,
 })
-
 
 utils:registerAdvancedControlKey({
     action="menuArrowUp",

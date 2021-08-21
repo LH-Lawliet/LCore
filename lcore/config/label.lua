@@ -34,3 +34,11 @@ label = {
 function _(code)
     return (label[config.language][code] or "no label for "..(code or "nil").." in "..config.language)
 end
+
+function reverseLabel(resultText)
+    for k, text in pairs(label[config.language]) do
+        if text == resultText then
+            return k
+        end
+    end
+end

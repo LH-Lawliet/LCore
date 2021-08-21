@@ -109,7 +109,7 @@ export default class ListButton extends React.Component {
                 nextSelect = 0
             }
             if (this.state.buttonData.onIndexChange) {
-                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':this.state.buttonData.list[nextSelect]})
+                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':{"key":nextSelect,"value":this.state.buttonData.list[nextSelect]}})
             }
             let button = this.state.buttonData
             button.selectedElementId = nextSelect
@@ -124,7 +124,7 @@ export default class ListButton extends React.Component {
                 nextSelect = this.state.buttonData.list.length-1
             }
             if (this.state.buttonData.onIndexChange) {
-                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':this.state.buttonData.list[nextSelect]})
+                callFivemCallback("callButtonCallback", {callback:this.state.buttonData.onIndexChange, 'callbackData':{"key":nextSelect,"value":this.state.buttonData.list[nextSelect]}})
             }
             let button = this.state.buttonData
             button.selectedElementId = nextSelect

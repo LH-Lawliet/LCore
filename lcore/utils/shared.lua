@@ -128,7 +128,7 @@ end
 function utils:isInTable(toTest, table)
     if type(toTest) == "table" then
         for k, tested in pairs(table) do
-            if TableComp(tested, toTest) then
+            if self:isInTable(tested, toTest) then
                 return true
             end
         end
@@ -141,6 +141,16 @@ function utils:isInTable(toTest, table)
         end
         return false
     end
+end
+
+
+function utils:getIndex(toTest, table)
+    for k, tested in pairs(table) do
+        if tested == toTest then
+            return k
+        end
+    end
+    return false
 end
 
 

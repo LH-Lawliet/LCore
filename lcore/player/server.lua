@@ -142,3 +142,19 @@ end
 function players:getVipLevel()
     return self.userAccount.vipLevel
 end
+
+function players:isAllowedToCreateNewChar()
+    local nAliveChar = 0
+
+    for k, char in pairs(self.characters) do
+        if char.rpDeath then
+            nAliveChar = nAliveChar+1
+        end
+    end
+    
+    if nAliveChar < config.allowedAliveCharacter[self:getVipLevel()+1] then
+        return true
+    else
+        return false
+    end
+end

@@ -1,7 +1,5 @@
 crypto = {}
 
-debug:print("loaded crypto module")
-
 function crypto:encrypt(password, iterations, callback)
     exports[config.resourceName]:encrypt(password, iterations, callback)
 end

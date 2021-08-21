@@ -40,12 +40,11 @@ function utils:registerAdvancedControlKey(data)
 end
 
 function utils:TriggerServerCallback(name, token, data, callback)
-    Citizen.CreateThreadNow(function ()
-        TriggerServerEvent(name, token, data)
-        RegisterNetEvent("callback"..name)
-        AddEventHandler("callback"..name, function (data)
-            callback(data)
-            return
-        end)
+    TriggerServerEvent(name, token, data)
+    RegisterNetEvent("callback"..name)
+    AddEventHandler("callback"..name, function (...)
+        callback(...)
+        return
     end)
+    return
 end

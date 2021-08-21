@@ -1,5 +1,5 @@
 config.pedModelList = {
-    male = {
+    ['male'] = {
         {model="mp_m_freemode_01", allowedInCharactedCreation=true},
 
         {model="g_m_importexport_01", allowedInCharactedCreation=true, vipLvl=1},
@@ -51,7 +51,7 @@ config.pedModelList = {
         {model="g_m_y_strpunk_02", allowedInCharactedCreation=true, vipLvl=1},
         {model="g_m_m_casrn_01", allowedInCharactedCreation=true, vipLvl=1},
     }
-    female = {
+    ['female'] = {
         {model="mp_f_freemode_01", allowedInCharactedCreation=true},
         {model="g_f_importexport_01", allowedInCharactedCreation=true, vipLvl=1},
         {model="g_f_importexport_01", allowedInCharactedCreation=true, vipLvl=1},

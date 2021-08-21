@@ -8,6 +8,18 @@ export default class Button extends React.Component {
     state = {};
     constructor (data) {
         super(data);
+
+        if (data.button.rightLogo) {
+            if (data.button.rightLogo == ">") {
+                data.button.rightComponent = 'img'
+                data.button.rightImgUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/arrowright.png"
+            }
+            if (data.button.rightLogo == "dead") {
+                data.button.rightComponent = 'img'
+                data.button.rightImgUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenutu/deathmatch.png"
+            }
+        }
+
         this.state = {
             buttonData: data.button
         };
@@ -65,7 +77,7 @@ export default class Button extends React.Component {
 
     menuPressSelect() {
         let button = this.state.buttonData
-        if (!button.rightComponent || !button.rightComponent === "checkbox") {
+        if (!button.rightComponent || !(button.rightComponent === "checkbox")) {
             if (this.didImMounted() && button && button.callback && this.isSelected()) {
                 callFivemCallback("callButtonCallback", button)
             }

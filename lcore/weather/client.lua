@@ -10,6 +10,7 @@ AddEventHandler("lcore:updateToken", function (token)
     end)
 end)
 
+
 Citizen.CreateThread(function ()
     while true do
         timer = timer+(msInDay/config.dayTime)*config.updateTimeDelay
