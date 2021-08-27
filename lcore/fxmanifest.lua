@@ -42,6 +42,7 @@ client_scripts {
     'ui/menu.lua',
     'ui/blip.lua',
     'ui/notification.lua',
+    'ui/frontendMenu.lua',
 
     'debug/client.lua',
 

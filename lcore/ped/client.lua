@@ -7,6 +7,8 @@ function pedHandler:create(data)
         return
     end
 
+    debug:print("create a ped with model ",data.model)
+
     local pedInfo = {
         model = data.model or config.defaultPed,
         pos = data.pos,
@@ -16,7 +18,11 @@ function pedHandler:create(data)
         maxLoading = data.maxLoading or config.defaultMaxModelLoading,
         unlimitedLoading = data.unlimitedLoading or false,
     }
-    pedInfo.modelHashed = GetHashKey(pedInfo.model),
+    if IsModelValid(pedInfo.model) then
+        pedInfo.modelHashed = pedInfo.model
+    else
+        pedInfo.modelHashed = GetHashKey(pedInfo.model)
+    end
     setmetatable(pedInfo,pedHandler)
 
     local x = 0
@@ -24,6 +30,7 @@ function pedHandler:create(data)
     while (pedInfo.unlimitedLoading or (x<pedInfo.maxLoading)) and not HasModelLoaded(pedInfo.modelHashed) do
         Wait(10)
         RequestModel(pedInfo.modelHashed)
+        print("loading ",pedInfo.model,pedInfo.modelHashed)
         x = x+1
     end
 
@@ -32,6 +39,22 @@ function pedHandler:create(data)
     end
 
     pedInfo.ped = CreatePed(0, pedInfo.modelHashed, pedInfo.pos.x, pedInfo.pos.y, pedInfo.pos.z, pedInfo.heading, pedInfo.isNetwork, pedInfo.bScriptHostPed)
+    SetEntityCoordsNoOffset(pedInfo.ped, pedInfo.pos.x, pedInfo.pos.y, pedInfo.pos.z)
     SetModelAsNoLongerNeeded(pedInfo.modelHashed)
     return pedInfo
+end
+
+function pedHandler:FreezeEntityPosition(state)
+    self.freeze = state
+    FreezeEntityPosition(self.ped, state)
+end
+
+function pedHandler:changeModel(newModel)
+    local oldPed = self.ped
+    local wasFreezed = self.freeze
+    self.model = newModel
+
+    self = pedHandler:create({model=self.model, pos=GetEntityCoords(self.ped, false), heading=GetEntityHeading(self.ped), unlimitedLoading=true})
+    FreezeEntityPosition(self.ped, wasFreezed)
+    DeleteEntity(oldPed)
 end

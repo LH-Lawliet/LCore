@@ -15,7 +15,7 @@ Citizen.CreateThreadNow(function ()
     end
 
     utils:TriggerServerCallback("lcore:getMyCharacters", eventToken, false, function (characters, isAllowedToCreateNewChar)
-        local charChooseMenu = nil
+        --[[local charChooseMenu = nil
 
         local buttons = {}
 
@@ -64,10 +64,20 @@ Citizen.CreateThreadNow(function ()
             subTitle=_("chooseAnOption"),
             buttons = buttons
         })
-        charChooseMenu:openMenu()
-
+        charChooseMenu:openMenu()]]
+        
 
         myPed = playerPedClass:create()
         ShutdownLoadingScreenNui()
+        Wait(250)
+
+        if IsPauseMenuActive() then
+            frontendMenuHandler:create({ped=myPed:GetPlayerPed()})
+            Wait(100)
+        end
+
+        local frontendMenu = frontendMenuHandler:create({ped=myPed:GetPlayerPed(), blur=250, pedPosition=2})
+        Wait(5000)
+        frontendMenu:close()
     end)
 end)

@@ -79,7 +79,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                 body = {
                     {
                         type = "TextBlock",
-                        text = _("password"),
+                        text = _("password").." :",
                         weight = "bolder",
                         size = "large"
                     },
@@ -90,7 +90,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                     {
                         type = "Input.Text",
                         id = "passwordInput",
-                        placeholder = "Password",
+                        placeholder = _("password"),
                         maxLength = 18
                     },
                 },

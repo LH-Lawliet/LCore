@@ -8,9 +8,10 @@ import ListButton from './ListButton.js'
 import ArrowsUpAndDown from './ArrowsUpAndDown.js'
 import {isEnvBrowser, recursiveAssign, callFivemCallback} from './../utils.js'
 
+let debugMenu = false
 
 function getDefaultMenu() {
-    if (isEnvBrowser()) {
+    if (isEnvBrowser() && debugMenu) {
         return {
             "width": "25vw",
             "padding": "2vh",

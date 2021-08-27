@@ -10,11 +10,11 @@ export default class Button extends React.Component {
         super(data);
 
         if (data.button.rightLogo) {
-            if (data.button.rightLogo == ">") {
+            if (data.button.rightLogo === ">") {
                 data.button.rightComponent = 'img'
                 data.button.rightImgUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/arrowright.png"
             }
-            if (data.button.rightLogo == "dead") {
+            if (data.button.rightLogo === "dead") {
                 data.button.rightComponent = 'img'
                 data.button.rightImgUrl = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenutu/deathmatch.png"
             }
