@@ -8,47 +8,81 @@ function menuHandler:create(data)
     local menu = data
     setmetatable(menu,menuHandler)
 
-    if menu.buttons then
-        for k,button in pairs(menu.buttons) do
-            if button.close then
-                button.callback = function ()
-                    menu:closeMenu()
-                end
-            end
-            if button.subMenu then
-                debug:print("subMenu creation")
-                button.callback = function ()
-                    debug:print("oui")
-                    menu:closeMenu(true)
-                    button.subMenu.parentMenu = menu
-                    setmetatable(button.subMenu,menuHandler)
-                    button.subMenu:openMenu()
-                end
-            end
-            if button.back then
-                button.callback = function ()
-                    menu:back()
-                end
-            end
-            if button.hardBack then
-                button.callback = function ()
-                    menu:hardBack()
-                end
-            end
-        end
-    end
+    menu.buttons = menu.buttons or {}
+    menu:loadButtons()
 
     return menu
 end
 
+function menuHandler:loadButtons()
+    for k,button in pairs(self.buttons) do
+        if button.close then
+            button.callback = function ()
+                self:closeMenu()
+            end
+        end
+        if button.subMenu then
+            button.callback = function ()
+                self:closeMenu(true)
+                button.subMenu.parentMenu = self
+                setmetatable(button.subMenu,menuHandler)
+                button.subMenu:openMenu()
+            end
+        end
+        if button.back then
+            button.callback = function ()
+                self:back()
+            end
+        end
+        if button.hardBack then
+            button.callback = function ()
+                self:hardBack()
+            end
+        end
+        if button.reloaderCallback then
+            button.callback = function ()
+                self:reloadMenu(button.reloaderCallback)
+            end
+        end
+    end
+end
+
+
+function menuHandler:cleanButtons()
+    self.buttons = {}
+    collectgarbage("collect")
+end
+
+function menuHandler:addButton(button)
+    table.insert(self.buttons,button)
+end
+
 function menuHandler:openMenu(selectedButton)
     self.currentButton = selectedButton or self.currentButton or 0
+
+    if self.loadingRoutine and type(self.loadingRoutine) == 'function' then
+        if not self.disableAutoClean then
+            self:cleanButtons()
+        end
+        self.loadingRoutine(self)
+        self:loadButtons()
+    end
+
     local sendedMenu = utils:deepcopy(self) --utils:copy(self)
     sendedMenu.parentMenu = nil
     if sendedMenu.buttons then
         for k,button in pairs(sendedMenu.buttons) do
             if button.checked and type(button.checked)=='function' then
                 button.checked = button.checked()
+            end
+            if button.rightComponentIfTrue and button.rightComponentIfTrue=='img' and button.rightImgUrlIfTrue and button.rightComponentIsTrue and type(button.rightComponentIsTrue)=='function' then
+                if button.rightComponentIsTrue() then
+                    button.rightComponent = button.rightComponentIfTrue
+                    button.rightImgUrl = button.rightImgUrlIfTrue
+                else
+                    button.rightComponent = nil
+                    button.rightImgUrl = nil
+                end
             end
             button.subMenu = nil
         end
@@ -66,6 +100,16 @@ function menuHandler:openSubMenu(subMenu)
     setmetatable(subMenu,menuHandler)
     subMenu:openMenu()
 end
+
+
+function menuHandler:reloadMenu(action)
+    self:closeMenu(true)
+    if (action and type(action)=='function') then
+        action()
+    end
+    self:openMenu()
+end
+
 
 
 function menuHandler:closeMenu(getState)

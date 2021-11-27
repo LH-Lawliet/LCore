@@ -3,6 +3,7 @@ local spawnedVehicle = nil
 local noClip = nil
 
 Citizen.CreateThreadNow(function ()
+    SetNuiFocus(true, true)
     if config.debug == 1 then
         debug:print("We are in debug mode")
 
@@ -80,6 +81,106 @@ Citizen.CreateThreadNow(function ()
 
         local ownedLogo = "https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/commonmenu/shop_garage_icon_a.png"
 
+
+        local spoilerMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("spoiler"),
+            loadingRoutine = function (this)
+                for i = -1,spawnedVehicle:GetNumVehicleMods("SPOILER")-1,1  do
+                    this:addButton({
+                        text=spawnedVehicle:GetModText("SPOILER", i), 
+                        rightComponentIfTrue="img", 
+                        rightImgUrlIfTrue=ownedLogo, 
+                        rightComponentIsTrue=function ()
+                            return (spawnedVehicle:getVehicleModClassicLevel("SPOILER") == i)
+                        end, 
+                        reloaderCallback = function()
+                            spawnedVehicle:setVehicleModClassicLevel("SPOILER", i)
+                        end
+                    })
+                end
+                this:addButton({text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true})
+            end
+        })
+
+
+        local frontBumberMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("bumper_f"),
+            loadingRoutine = function (this)
+                for i = -1,spawnedVehicle:GetNumVehicleMods("BUMPER_F")-1,1  do
+                    this:addButton({
+                        text=spawnedVehicle:GetModText("BUMPER_F", i), 
+                        rightComponentIfTrue="img", 
+                        rightImgUrlIfTrue=ownedLogo, 
+                        rightComponentIsTrue=function ()
+                            return (spawnedVehicle:getVehicleModClassicLevel("BUMPER_F") == i)
+                        end, 
+                        reloaderCallback = function()
+                            spawnedVehicle:setVehicleModClassicLevel("BUMPER_F", i)
+                        end
+                    })
+                end
+                this:addButton({text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true})
+            end
+        })
+
+
+        local skirtMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("skirt"),
+            loadingRoutine = function (this)
+                for i = -1,spawnedVehicle:GetNumVehicleMods("SKIRT")-1,1  do
+                    this:addButton({
+                        text=spawnedVehicle:GetModText("SKIRT", i), 
+                        rightComponentIfTrue="img", 
+                        rightImgUrlIfTrue=ownedLogo, 
+                        rightComponentIsTrue=function ()
+                            return (spawnedVehicle:getVehicleModClassicLevel("SKIRT") == i)
+                        end, 
+                        reloaderCallback = function()
+                            spawnedVehicle:setVehicleModClassicLevel("SKIRT", i)
+                        end
+                    })
+                end
+                this:addButton({text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true})
+            end
+        })
+
+        local rearBumberMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("bumper_r"),
+            loadingRoutine = function (this)
+                for i = -1,spawnedVehicle:GetNumVehicleMods("BUMPER_R")-1,1  do
+                    this:addButton({
+                        text=spawnedVehicle:GetModText("BUMPER_R", i), 
+                        rightComponentIfTrue="img", 
+                        rightImgUrlIfTrue=ownedLogo, 
+                        rightComponentIsTrue=function ()
+                            return (spawnedVehicle:getVehicleModClassicLevel("BUMPER_R") == i)
+                        end, 
+                        reloaderCallback = function()
+                            spawnedVehicle:setVehicleModClassicLevel("BUMPER_R", i)
+                        end
+                    })
+                end
+                this:addButton({text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true})
+            end
+        })
+
+
         local engineLevelMenu = menuHandler:create({
             banner={
                 title="",
@@ -87,11 +188,31 @@ Citizen.CreateThreadNow(function ()
             },
             subTitle=GetLabelText("CMOD_ENG_1"),
             buttons={
-                {text=_("stockEngine"), rightComponent="img", rightImgUrl=ownedLogo},
-                {text=GetLabelText("CMOD_ENG_2")},
-                {text=GetLabelText("CMOD_ENG_3")},
-                {text=GetLabelText("CMOD_ENG_4")},
-                {text=GetLabelText("CMOD_ENG_5")},
+                {text=_("stockEngine"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("ENGINE") == -1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("ENGINE", -1)
+                end},
+                {text=GetLabelText("CMOD_ENG_2"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("ENGINE") == 0)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("ENGINE", 0)
+                end},
+                {text=GetLabelText("CMOD_ENG_3"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("ENGINE") == 1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("ENGINE", 1)
+                end},
+                {text=GetLabelText("CMOD_ENG_4"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("ENGINE") == 2)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("ENGINE", 2)
+                end},
+                {text=GetLabelText("CMOD_ENG_5"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("ENGINE") == 3)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("ENGINE", 3)
+                end},
                 {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
             }
         })
@@ -103,11 +224,62 @@ Citizen.CreateThreadNow(function ()
             },
             subTitle=_("brakes"),
             buttons={
-                {text=GetLabelText("CMOD_BRA_0")},
-                {text=GetLabelText("CMOD_BRA_1")},
-                {text=GetLabelText("CMOD_BRA_2")},
-                {text=GetLabelText("CMOD_BRA_3")},
-                {text=GetLabelText("CMOD_BRA_4")},
+                {text=GetLabelText("CMOD_BRA_0"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("BRAKES") == -1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("BRAKES", -1)
+                end},
+                {text=GetLabelText("CMOD_BRA_1"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("BRAKES") == 0)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("BRAKES", 0)
+                end},
+                {text=GetLabelText("CMOD_BRA_2"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("BRAKES") == 1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("BRAKES", 1)
+                end},
+                {text=GetLabelText("CMOD_BRA_3"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("BRAKES") == 2)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("BRAKES", 2)
+                end},
+                {text=GetLabelText("CMOD_BRA_4"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("BRAKES") == 3)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("BRAKES", 3)
+                end},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        local suspensionLevelMenu = menuHandler:create({
+            banner={
+                title="",
+                backgroundImage="https://raw.githubusercontent.com/LH-Lawliet/gtavThings/main/img/menu/shopui/shopui_title_carmod.png"
+            },
+            subTitle=_("suspensions"),
+            buttons={
+                {text=GetLabelText("CMOD_SUS_0"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("SUSPENSION") == -1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("SUSPENSION", -1)
+                end},
+                {text=GetLabelText("CMOD_SUS_1"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("SUSPENSION") == 0)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("SUSPENSION", 0)
+                end},
+                {text=GetLabelText("CMOD_SUS_2"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("SUSPENSION") == 1)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("SUSPENSION", 1)
+                end},
+                {text=GetLabelText("CMOD_SUS_3"), rightComponentIfTrue="img", rightImgUrlIfTrue=ownedLogo, rightComponentIsTrue=function ()
+                    return (spawnedVehicle:getVehicleModClassicLevel("SUSPENSION") == 2)
+                end, reloaderCallback = function()
+                    spawnedVehicle:setVehicleModClassicLevel("SUSPENSION", 2)
+                end},
                 {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
             }
         })
@@ -122,6 +294,11 @@ Citizen.CreateThreadNow(function ()
             buttons={
                 {text=GetLabelText("CMOD_ENG_1"), subMenu=engineLevelMenu, rightLogo=">"},
                 {text=_("brakes"), subMenu=brakeLevelMenu, rightLogo=">"},
+                {text=_("suspensions"), subMenu=suspensionLevelMenu, rightLogo=">"},
+                {text=_("spoiler"), subMenu=spoilerMenu, rightLogo=">"},
+                {text=_("bumper_f"), subMenu=frontBumberMenu, rightLogo=">"},
+                {text=_("bumper_r"), subMenu=rearBumberMenu, rightLogo=">"},
+                {text=_("skirt"), subMenu=skirtMenu, rightLogo=">"},
 
                 {
                     text="Carcolor", 

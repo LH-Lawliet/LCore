@@ -1,0 +1,138 @@
+.itemsPanel {
+    overflow-y: scroll;
+    font-size: 0;
+}
+
+.invBreaker {
+    display: block;
+}
+
+.itemPanelTitle {
+    font-size: 3vh;
+}
+
+.weightBarBackground {
+    position: relative;
+    top: -1.5vh;
+    left: 2vw;
+    height: 2vh;
+    border-radius: 1vh;
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: scale(1.0);
+}
+
+.weightText {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 2vh;
+    line-height: 2vh;
+    height: 2vh;
+    overflow: hidden;
+}
+
+.weightBarFill {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 1vh;
+}
+
+.itemsPanel::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 0.15vw;
+}
+
+.itemsPanel::-webkit-scrollbar {
+    width: 0.3vw;
+}
+
+.itemsPanel::-webkit-scrollbar-thumb {
+    border-radius: 0.3vw;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.itemsPanel::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.invItem {
+    display: inline-block;
+    height: 9.5vh;
+    width: 9.5vh;
+    background-color: rgba(255,255,255,0.1);
+    text-align: center;
+    box-sizing:border-box;
+    background-clip: padding-box;
+    border-radius: 0.01vh;
+    transform: scale(1.0);
+    z-index: 1;
+}
+
+.invItemImg{
+    position: absolute;
+    transform: translate(50%,50%);
+    width: auto;
+    height: auto;
+}
+
+.invItem img{
+    position: absolute;
+    transform: translate(50%,50%);
+    width: auto;
+    height: auto;
+}
+
+.invItem .itemQtty {
+    position: absolute;
+    font-size: 1.8vh;
+    right: 1vh;
+    bottom: 1vh;
+    transform: translate(0%,50%);
+}
+
+.invItem .itemName {
+    position: absolute;
+    font-size: 1.8vh;
+    height: 1.8vh;
+    bottom: 1vh;
+    transform: translate(50%,0%);
+    
+    overflow: hidden;
+}
+
+.invItem span{
+    font-size: 2vh;
+}
+
+.leftFree {
+    border-left: 0.25vh solid transparent;
+}
+
+.rightFree {
+    border-right: 0.25vh solid transparent;
+}
+
+.topFree {
+    border-top: 0.25vh solid transparent;
+}
+
+.bottomFree {
+    border-bottom: 0.25vh solid transparent;
+}
+
+.leftFree.topFree {
+    border-top-left-radius: 2vh;
+}
+
+.leftFree.bottomFree {
+    border-bottom-left-radius: 2vh;
+}
+
+.rightFree.topFree {
+    border-top-right-radius: 2vh;
+}
+
+.rightFree.bottomFree {
+    border-bottom-right-radius: 2vh;
+}

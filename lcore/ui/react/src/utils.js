@@ -33,7 +33,6 @@ export function hexToRGB(hexCode) {
     };
 }
 
-
 // browser-side JS
 export function callFivemCallback(name, data) {
     if (!isEnvBrowser()) {

@@ -47,6 +47,7 @@ function vehicleHandler:create(data)
 
     SetModelAsNoLongerNeeded(vehicle.modelHashed)
 
+    SetVehicleModKit(vehicle.id, 0)
     vehicle.data = vehicle:getVehicleData()
     debug:PrintTable(vehicle.data)
     return vehicle
@@ -62,6 +63,31 @@ function vehicleHandler:delete()
     end
     debug:print("Request of entity control failed")
     return false
+end
+
+
+function vehicleHandler:getVehicleModClassicLevel(mod)
+    return self.data.modsClassic[config.modsClassic[mod]]
+end
+
+function vehicleHandler:setVehicleModClassicLevel(mod, level)
+    debug:PrintTable(self)
+    self:setVehicleData({modsClassic = {[config.modsClassic[mod]]=level}})
+end
+
+function vehicleHandler:GetNumVehicleMods(mod, vehicleID) 
+    local vehicle = vehicleID or self.id
+    return GetNumVehicleMods(vehicle, tonumber(config.modsClassic[mod]))
+end 
+
+function vehicleHandler:GetModText(mod, modValue, vehicleID)
+    local vehicle = vehicleID or self.id
+    local expected = GetLabelText(GetModTextLabel(vehicle, tonumber(config.modsClassic[mod]), modValue))
+    debug:print("mod text label : ", expected)
+    if expected ~= "NULL" then
+        return expected
+    end
+    return GetLabelText("CMOD_SPO_0") -- NONE
 end
 
 function vehicleHandler:getVehicleData(vehicleID)
@@ -142,10 +168,7 @@ end
 
 function vehicleHandler:setVehicleData(modified)
     local vehicle = self.id
-
-    self.vehicleData = utils:tableMerge(self.vehicleData,modified)
-
-    SetVehicleModKit(vehicle, 0)
+    self.data = utils:tableMerge(self.data, modified)
 
     if modified.modsClassic then
         for k,v in pairs(modified.modsClassic) do

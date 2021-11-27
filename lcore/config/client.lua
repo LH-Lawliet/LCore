@@ -1,7 +1,8 @@
 config.language = "fr"
 
 config.defaultPed = "a_m_o_soucent_01"
-config.defaultPos = {x=402.5164, y=-1002.847, z=-99.2587, h=50.0}
+--config.defaultPos = {x=402.5164, y=-1002.847, z=-99.2587, h=50.0}
+config.defaultPos = { x = 411.528, y = -1024.557, z = 28.787, h = 237.2 }
 
 config.updatePedDelay = 200
 

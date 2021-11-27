@@ -75,7 +75,7 @@ export default class Menu extends React.Component {
         super();
         this.state = {
             menuData: getDefaultMenu(),
-            showMenu: isEnvBrowser()
+            showMenu: isEnvBrowser() && debugMenu
         };
 
         this.createMenu = this.createMenu.bind(this)

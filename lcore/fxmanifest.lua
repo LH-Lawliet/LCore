@@ -34,6 +34,7 @@ shared_scripts {
 client_scripts {
     'config/client.lua',
     'config/vehicleList.lua',
+    'config/vehiclesMods.lua',
 
     'utils/client.lua',
     

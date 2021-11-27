@@ -71,13 +71,13 @@ Citizen.CreateThreadNow(function ()
         ShutdownLoadingScreenNui()
         Wait(250)
 
-        if IsPauseMenuActive() then
-            frontendMenuHandler:create({ped=myPed:GetPlayerPed()})
-            Wait(100)
-        end
+        --if IsPauseMenuActive() then
+        --    frontendMenuHandler:create({ped=myPed:GetPlayerPed()})
+        --    Wait(100)
+        --end
 
-        local frontendMenu = frontendMenuHandler:create({ped=myPed:GetPlayerPed(), blur=250, pedPosition=2})
-        Wait(5000)
-        frontendMenu:close()
+        --local frontendMenu = frontendMenuHandler:create({ped=myPed:GetPlayerPed(), blur=250, pedPosition=2})
+        --Wait(5000)
+        --frontendMenu:close()
     end)
 end)

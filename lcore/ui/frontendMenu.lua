@@ -1,8 +1,6 @@
 frontendMenuHandler = {}
 frontendMenuHandler.__index = frontendMenuHandler
 
-print("load")
-
 function frontendMenuHandler:create(data)
     local frontendMenu = {
         type = data.type or "FE_MENU_VERSION_LOBBY", -- list: https://docs.fivem.net/natives/?_0xEF01D36B9C9D0C7B

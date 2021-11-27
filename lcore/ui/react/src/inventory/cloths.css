@@ -1,0 +1,56 @@
+.invClothPart {
+    position: absolute;
+    transform: translate(50%,50%);
+    height: 9vh;
+    width: 9vh;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 0;
+}
+
+.invClothPart span{
+    font-family: font0;
+    font-size: 1vh;
+}
+
+#invHat {
+    top: 13vh;
+    right: 33.5vw;
+}
+
+#invGlasses {
+    top: 22vh;
+    right: 41.5vw;
+}
+
+#invMask {
+    top: 22vh;
+    right: 25.5vw;
+}
+
+#invTops {
+    top: 32.5vh;
+    right: 25.5vw;
+}
+
+#invUndershirt {
+    top: 32.5vh;
+    right: 41.5vw;
+}
+
+#invGlove {
+    top: 43vh;
+    right: 41.5vw;
+}
+
+#invPants {
+    top: 53.5vh;
+    right: 41.5vw;
+}
+
+#invShoes {
+    top: 64vh;
+    right: 41.5vw;
+}
+
