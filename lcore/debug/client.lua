@@ -351,6 +351,23 @@ Citizen.CreateThreadNow(function ()
             }
         })
 
+
+
+        local nuiTo3DMenu = menuHandler:create({
+            banner={
+                title="Debug"
+            },
+            subTitle=_("chooseAnOption"),
+            buttons={
+                {text="On anything", callback = function ()
+                    nuiTo3D:StartNuiTo3D()
+                end},
+                {text=_("back"), textStyle={color="rgba(255,0,0)"}, back=true},
+            }
+        })
+
+        
+
         menu = menuHandler:create({
             banner={
                 title="Debug"
@@ -369,6 +386,7 @@ Citizen.CreateThreadNow(function ()
                         noClip = false
                     end
                 },
+                {text="Nui To 3D", rightLogo=">", subMenu = nuiTo3DMenu},
                 {text="Notification", rightLogo=">", subMenu = notifcationMenu},
                 {text="Ped", rightLogo=">", subMenu = pedMenu},
                 {text="Vehicle", rightLogo=">", subMenu = vehicleMenu},

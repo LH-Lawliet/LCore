@@ -1,3 +1,10 @@
+function utils:disableSpecificControls(type)
+    for k,v in pairs(config.inputs[type]) do
+        DisableControlAction(0,v,true)
+    end
+end
+
+
 function utils:registerControlKey(action, description, defaultKey, callback)
 	RegisterCommand(action, function()
 		callback()

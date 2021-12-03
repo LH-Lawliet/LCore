@@ -93,8 +93,6 @@ end
 function vehicleHandler:getVehicleData(vehicleID)
     local vehicle = vehicleID or self.id
 
-    debug:print("vehicle : ",vehicle)
-
     local data = {}
 
     data.modsClassic = {}

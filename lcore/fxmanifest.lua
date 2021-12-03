@@ -35,6 +35,7 @@ client_scripts {
     'config/client.lua',
     'config/vehicleList.lua',
     'config/vehiclesMods.lua',
+    'config/inputs.lua',
 
     'utils/client.lua',
     
@@ -44,6 +45,7 @@ client_scripts {
     'ui/blip.lua',
     'ui/notification.lua',
     'ui/frontendMenu.lua',
+    'ui/nuiTo3D.lua',
 
     'debug/client.lua',
 
