@@ -7,24 +7,16 @@ local function DegToRad(deg)
     return deg * math.pi / 180.0;
 end
 
-local function Vector3(x,y,z)
-    return {x = x, y = y, z = z}
-end
-
-local function Vector2(x,y)
-    return {x = x, y = y}
-end
-
 local function AddVector3(vector1, vector2)
-    return Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
+    return vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
 end
 
 local function SubVector3(vector1, vector2)
-    return Vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
+    return vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
 end
 
 local function MulVector3(vector1, value)
-    return Vector3(vector1.x * value, vector1.y * value, vector1.z * value);
+    return vector3(vector1.x * value, vector1.y * value, vector1.z * value);
 end
 
 
@@ -33,7 +25,7 @@ local function RotationToDirection(rotation)
     z = DegToRad(rotation.z);
     x = DegToRad(rotation.x);
     num = math.abs(math.cos(x));
-    return Vector3(-math.sin(z) * num, math.cos(z) * num, math.sin(x))
+    return vector3(-math.sin(z) * num, math.cos(z) * num, math.sin(x))
 end
 
 
@@ -55,20 +47,20 @@ local function ProcessCoordinates(x, y)
         relativeY = math.abs(relativeY);
     end
 
-    return Vector2(relativeX, relativeY);
+    return  vector2(relativeX, relativeY);
 end
 
 
 
 local function WorldToScreen(coords)
     local retval, world3dToScreen2dX,world3dToScreen2dY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z);
-    local result = Vector2(world3dToScreen2dX, world3dToScreen2dY);
+    local result =  vector2(world3dToScreen2dX, world3dToScreen2dY);
 
     if (result.x == -1 and result.y == -1) then
         return false;
     end
 
-    return Vector3((result.x - 0.5) * 2, (result.y - 0.5) * 2, 0);
+    return vector3((result.x - 0.5) * 2, (result.y - 0.5) * 2, 0);
 end
 
 
@@ -130,10 +122,10 @@ end
 
 
 local function GetCameraProperty()
-    local rotationUp = AddVector3(nuiTo3D.current.camera.rotation, Vector3(10, 0, 0));
-    local rotationDown = AddVector3(nuiTo3D.current.camera.rotation, Vector3(-10, 0, 0));
-    local rotationLeft = AddVector3(nuiTo3D.current.camera.rotation, Vector3(0, 0, -10));
-    local rotationRight = AddVector3(nuiTo3D.current.camera.rotation, Vector3(0, 0, 10));
+    local rotationUp = AddVector3(nuiTo3D.current.camera.rotation, vector3(10, 0, 0));
+    local rotationDown = AddVector3(nuiTo3D.current.camera.rotation, vector3(-10, 0, 0));
+    local rotationLeft = AddVector3(nuiTo3D.current.camera.rotation, vector3(0, 0, -10));
+    local rotationRight = AddVector3(nuiTo3D.current.camera.rotation, vector3(0, 0, 10));
 
     local cameraRight = SubVector3(RotationToDirection(rotationRight), RotationToDirection(rotationLeft));
     local cameraUp = SubVector3(RotationToDirection(rotationUp), RotationToDirection(rotationDown));
@@ -196,7 +188,7 @@ function nuiTo3D:StartNuiTo3D(type)
 
 
                 local x,y = GetNuiCursorPosition()
-                cursor = Vector2(x,y)
+                cursor =  vector2(x,y)
                 local result = Screen2dToWorld3d(cursor, -1)
                 if (result.entity ~= 0 and (not type or (GetEntityType(entity) == type))) then
                     SetEntityAlpha(result.entity, 51, false)
