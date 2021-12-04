@@ -36,6 +36,9 @@ function playerPedClass:create(model,pos)
             Wait(config.updatePedDelay)
             pedInfo.pedCoords = GetEntityCoords(self.playerPed, false)
             pedInfo.pedHeading = GetEntityHeading(self.playerPed)
+            if pedInfo.triggers then
+                pedInfo.triggers:Check()
+            end
         end
     end)
     return pedInfo

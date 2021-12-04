@@ -68,6 +68,18 @@ Citizen.CreateThreadNow(function ()
         
 
         myPed = playerPedClass:create()
+        myPed.triggers = triggerClass:generateTriggerChunk()
+
+        --[[for i=0,5000,1 do
+            myPed.triggers:CreateTrigger({
+                type="4dot",
+                pos1={x=10.5,y=11.5,z=-1500.50},
+                pos2={x=11.5,y=11.5,z=-1500.50},
+                pos3={x=10.5,y=12.5,z=-1500.50},
+                pos4={x=11.5,y=12.5,z=-1500.50},
+                distance = 5.0
+            })
+        end]]--
         ShutdownLoadingScreenNui()
         Wait(250)
 

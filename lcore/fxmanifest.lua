@@ -47,6 +47,8 @@ client_scripts {
     'ui/frontendMenu.lua',
     'ui/nuiTo3D.lua',
 
+    'trigger/client.lua',
+
     'debug/client.lua',
 
     'ped/client.lua',
