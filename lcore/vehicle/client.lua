@@ -83,7 +83,6 @@ end
 function vehicleHandler:GetModText(mod, modValue, vehicleID)
     local vehicle = vehicleID or self.id
     local expected = GetLabelText(GetModTextLabel(vehicle, tonumber(config.modsClassic[mod]), modValue))
-    debug:print("mod text label : ", expected)
     if expected ~= "NULL" then
         return expected
     end

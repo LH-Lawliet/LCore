@@ -19,7 +19,13 @@ end
 
 
 function triggerClass:Check()
-    local pedPos = myPed.pedCoords
+    local pedPos = nil
+    
+    if myPed and myPed.pedCoords then
+        pedPos = myPed.pedCoords
+    else
+        pedPos = GetEntityCoords(GetPlayerPed(-1))
+    end
     
     for k, trigger in pairs(self.triggers) do
         local inside = false

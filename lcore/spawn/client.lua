@@ -80,6 +80,7 @@ Citizen.CreateThreadNow(function ()
                 distance = 5.0
             })
         end]]--
+        
         ShutdownLoadingScreenNui()
         Wait(250)
 

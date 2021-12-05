@@ -74,6 +74,7 @@ server_scripts {
 
     'debug/server.lua',
 
+    'config/weatherList.lua',
     'weather/server.lua',
 
     'player/server.lua',
