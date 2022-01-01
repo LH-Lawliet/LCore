@@ -2,7 +2,7 @@ menuHandler = {}
 menuHandler.__index = menuHandler
 
 local callbackMenu = nil
-
+local disableInput = false
 
 function menuHandler:create(data)
     local menu = data
@@ -161,6 +161,31 @@ RegisterNUICallback('updateMenuState', function(data, cb)
     callbackMenu = data
     return cb("ok")
 end)
+
+
+
+RegisterNUICallback('askForInputsFocus', function(data, cb)
+    Wait(50) -- ENSURE THAT ENABLE IS CALLED BEFORE
+
+    disableInput = true
+    debug:print("disable input")
+    Citizen.CreateThreadNow(function ()
+        while disableInput do 
+            DisableAllControlActions(0)
+            Wait(0)
+        end
+        EnableAllControlActions(0)
+    end)
+    return cb("ok")
+end)
+
+RegisterNUICallback('releaseInputsFocus', function(data, cb)
+    debug:print("enable input")
+    disableInput = false
+    return cb("ok")
+end)
+
+
 
 utils:registerAdvancedControlKey({
     action="menuArrowUp",

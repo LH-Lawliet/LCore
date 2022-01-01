@@ -158,3 +158,13 @@ function players:isAllowedToCreateNewChar()
         return false
     end
 end
+
+function players:isAllowedToUsePed()
+    local vipLevel = self:getVipLevel()
+    
+    if vipLevel >= config.minVipLlvToUsePed then
+        return true
+    else
+        return false
+    end
+end

@@ -24,7 +24,7 @@ function vehicleHandler:create(data)
     vehicle.isNetwork = data.isNetwork or false
     
     vehicle.modelHashed = GetHashKey(vehicle.model)
-
+    debug:ServerPrint("Spawning "..vehicle.model.." : "..vehicle.modelHashed)
     local x = 0
     RequestModel(vehicle.modelHashed)
     while (vehicle.unlimitedLoading or (x<vehicle.maxLoading)) and not HasModelLoaded(vehicle.modelHashed) do
@@ -49,7 +49,6 @@ function vehicleHandler:create(data)
 
     SetVehicleModKit(vehicle.id, 0)
     vehicle.data = vehicle:getVehicleData()
-    debug:PrintTable(vehicle.data)
     return vehicle
 end
 

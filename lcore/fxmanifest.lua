@@ -36,6 +36,7 @@ client_scripts {
     'config/vehicleList.lua',
     'config/vehiclesMods.lua',
     'config/inputs.lua',
+    'config/pedmodelList.lua',
 
     'utils/client.lua',
     

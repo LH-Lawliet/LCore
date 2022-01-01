@@ -266,7 +266,6 @@ export default class Inventory extends React.Component {
     }
 
     render() {
-        console.log("oui oui oui oui")
         let invData = this.getInvData()
         if (invData.show) {
             let inventory = this.createInv(invData)
@@ -275,7 +274,7 @@ export default class Inventory extends React.Component {
             )
         } else {
             return (      
-                <div id="Inventory"></div>
+                <div id="Inventory" style={{'zIndex':-100}}></div>
             )
         }
         

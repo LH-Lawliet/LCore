@@ -196,7 +196,7 @@ function nuiTo3D:StartNuiTo3D(type)
                         self:StopNuiTo3D()
                         PlaySound(-1, 'FocusOut', 'HintCamSounds', 0, 0, 1);           
                         ResetEntityAlpha(result.entity)
-                        return result.coords,result.entity
+                        return result.entity,result.coords
                     end
                     Wait(0)
                     ResetEntityAlpha(result.entity)

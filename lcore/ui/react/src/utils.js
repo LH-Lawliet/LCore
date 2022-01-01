@@ -42,7 +42,7 @@ export function callFivemCallback(name, data) {
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify(data)
-        }).then(resp => resp.json()).then(resp => console.log(resp));
+        }).then(resp => resp.json());
     } else {
         console.log("Should call fivemNuiCallback but we are in regular browser with name '", name, "' and data ", data)
     }

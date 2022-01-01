@@ -6,5 +6,6 @@ config = {
     language = "fr",
     discordUrl = "https://discord.sunfive.fr",
     websiteUrl = "https://sunfive.fr",
-}
 
+    minVipLlvToUsePed = 2
+}

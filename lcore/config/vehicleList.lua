@@ -3941,7 +3941,7 @@ config.vehiclesInfo = {
     },
     ["-114291515"] = {
         modelName = 'bati',
-        fuelTypes = allFuel,
+        fuelTypes = noDiesel,
         tankSize = 22,
         consumption = 5.2,
         importantWheel = 0
@@ -4343,7 +4343,7 @@ config.vehiclesInfo = {
     },
     ["-891462355"] = {
         modelName = 'bati2',
-        fuelTypes = allFuel,
+        fuelTypes = noDiesel,
         tankSize = 22,
         consumption = 5.6,
         importantWheel = 0
@@ -4802,7 +4802,7 @@ config.vehiclesInfo = {
         modelName = 'youga3',
         fuelTypes = allFuel,
         tankSize = 80,
-        consumption = 5.5,
+        consumption = 7.2,
         importantWheel = 2
     },
     ["-1706603682"] = {
@@ -5298,5 +5298,144 @@ config.vehiclesInfo = {
     ["868868440"] = {
         modelName = 'metrotrain',
         trailer = true
+    },
+
+
+
+    ["1343932732"] = {
+        modelName = 'mule',
+        fuelTypes = allFuel,
+        tankSize = 160,
+        consumption = 9.2,
+        importantWheel = 2
+    },
+
+    ["1486521356"] = {
+        modelName = 'youga4',
+        fuelTypes = allFuel,
+        tankSize = 80,
+        consumption = 6.8,
+        importantWheel = 2
+    },
+
+    ["-261346873"] = {
+        modelName = 'granger2',
+        fuelTypes = allFuel,
+        tankSize = 70,
+        consumption = 5.9,
+        importantWheel = 0
+    },
+
+    ["655665811"] = {
+        modelName = 'zeno',
+        fuelTypes = noDiesel,
+        tankSize = 60,
+        consumption = 8.3,
+        importantWheel = 2
+    },
+
+    ["-670086588"] = {
+        modelName = 'patriot3',
+        fuelTypes = allFuel,
+        tankSize = 70,
+        consumption = 7.1,
+        importantWheel = 2
+    },
+
+    ["461465043"] = {
+        modelName = 'jubilee',
+        fuelTypes = allFuel,
+        tankSize = 70,
+        consumption = 7.4,
+        importantWheel = 2
+    },
+
+    ["-1444114309"] = {
+        modelName = 'ignus',
+        fuelTypes = noDiesel,
+        tankSize = 60,
+        consumption = 8.6,
+        importantWheel = 2
+    },
+
+    ["1532171089"] = {
+        modelName = 'deity',
+        fuelTypes = allFuel,
+        tankSize = 65,
+        consumption = 7.2,
+        importantWheel = 2
+    },
+
+    ["1141395928"] = {
+        modelName = 'comet7',
+        fuelTypes = allFuel,
+        tankSize = 55,
+        consumption = 6.8,
+        importantWheel = 2
+    },
+
+    ["-619930876"] = {
+        modelName = 'buffalo4',
+        fuelTypes = allFuel,
+        tankSize = 60,
+        consumption = 6.7,
+        importantWheel = 2
+    },
+
+    ["359875117"] = {
+        modelName = 'baller7',
+        fuelTypes = allFuel,
+        tankSize = 90,
+        consumption = 6.8,
+        importantWheel = 0
+    },
+
+    ["629969764"] = {
+        modelName = 'astron',
+        fuelTypes = allFuel,
+        tankSize = 60,
+        consumption = 6.6,
+        importantWheel = 2
+    },
+
+    ["662793086"] = {
+        modelName = 'iwagen',
+        fuelTypes = fullyElectric,
+        regeneration = true,
+        tankSize = 110,
+        consumption = 10.5,
+        importantWheel = 0
+    },
+
+    ["-1527436269"] = {
+        modelName = 'cinquemila',
+        fuelTypes = allFuel,
+        tankSize = 70,
+        consumption = 7.3,
+        importantWheel = 2
+    },
+
+    ["-915234475"] = {
+        modelName = 'champion',
+        fuelTypes = noDiesel,
+        tankSize = 45,
+        consumption = 9.1,
+        importantWheel = 2
+    },
+
+    ["1993851908"] = {
+        modelName = 'reever',
+        fuelTypes = noDiesel,
+        tankSize = 22,
+        consumption = 3.8,
+        importantWheel = 0
+    },
+
+    ["1353120668"] = {
+        modelName = 'shinobi',
+        fuelTypes = allFuel,
+        tankSize = 30,
+        consumption = 4,
+        importantWheel = 0
     },
 }

@@ -173,3 +173,7 @@ function utils:stringSplit(inputstr, sep)
     end
     return t
 end
+
+function utils:_if(bool, iftrue, iffalse) 
+    if bool then return iftrue else return iffalse end
+end

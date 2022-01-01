@@ -12,3 +12,4 @@ config.allowedAliveCharacter = {
     5, -- vip lvl2
     10, -- vip lvl3
 }
+

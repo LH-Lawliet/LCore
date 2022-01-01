@@ -34,8 +34,10 @@ function playerPedClass:create(model,pos)
     Citizen.CreateThread(function ()
         while true do
             Wait(config.updatePedDelay)
-            pedInfo.pedCoords = GetEntityCoords(self.playerPed, false)
-            pedInfo.pedHeading = GetEntityHeading(self.playerPed)
+            --print(self:GetPlayerPed())
+            local playerPed = GetPlayerPed(-1)
+            pedInfo.pedCoords = GetEntityCoords(playerPed, false)
+            pedInfo.pedHeading = GetEntityHeading(playerPed)
             if pedInfo.triggers then
                 pedInfo.triggers:Check()
             end
@@ -55,16 +57,34 @@ function playerPedClass:GetPlayerId()
     return self.playerId
 end
 
-function playerPedClass:setModel(model)
+function playerPedClass:setModel(model, notDefault)
     local modelHash = GetHashKey(model)
     RequestModel(model)
     while not HasModelLoaded(modelHash) do
         Wait(0)
     end
+    debug:print("Set played model to ",model)
     SetPlayerModel(self:GetPlayerId(), model)
     self.playerPed = GetPlayerPed(-1)
     self.playerModel = model
+
+    if not notDefault then
+        self:setDefaultComponentVariation()
+    end
     SetModelAsNoLongerNeeded(model)
+end
+
+function playerPedClass:setDefaultComponentVariation()
+    for i=0,11,1 do
+        SetPedComponentVariation(self:GetPlayerPed(), i, 0, 0, 0)
+    end
+    if utils:getIndex(self.playerModel, config.defaultPedByGender) then
+        local d = config.defaultHeadBlendData
+        SetPedHeadBlendData(self:GetPlayerPed(),d["shapeFather"],d["shapeMother"],d["ShapeThirdParent"],d["ColorFather"],d["ColorMother"],d["ColorThirdParent"],d["ShapeMix"],d["ColorMix"],d["ThirdMix"],false)
+        for i=0,19,1 do
+            SetPedFaceFeature(self:GetPlayerPed(), i, 0.0)
+        end
+    end
 end
 
 function playerPedClass:setCoordsNoOffset(pos,rot)
@@ -116,4 +136,11 @@ function playerPedClass:freeze(state)
             ClearPedTasksImmediately(self.playerPed)
         end
     end
+end
+
+function playerPedClass:isFaceEditable()
+    if self.playerModel and (self.playerModel == "mp_m_freemode_01" or self.playerModel == "mp_f_freemode_01") then
+        return true
+    end
+    return false
 end

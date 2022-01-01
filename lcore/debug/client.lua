@@ -2,6 +2,19 @@ local menu = nil
 local spawnedVehicle = nil
 local noClip = nil
 
+local eventToken = nil
+AddEventHandler("lcore:updateToken", function (token)
+    eventToken = token
+end)
+
+function debug:ServerPrint(...)
+    if config.debug == 1 then
+        TriggerServerEvent("lcore:ServerPrint", eventToken, ...)
+    end
+end
+
+
+
 Citizen.CreateThreadNow(function ()
     SetNuiFocus(true, true)
     if config.debug == 1 then
@@ -419,6 +432,12 @@ Citizen.CreateThreadNow(function ()
 
         RegisterCommand("fixCar", function()
             local entity = GetVehiclePedIsIn(myPed:GetPlayerPed(), false)
+            if entity == 0 then
+                entity = nuiTo3D:StartNuiTo3D()
+                if not entity then
+                    return
+                end
+            end
             SetVehicleEngineHealth(entity, 999.99999999)
             SetVehiclePetrolTankHealth(entity, 999.99999999)
             SetVehicleFixed(entity)

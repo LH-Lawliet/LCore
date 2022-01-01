@@ -3,6 +3,7 @@ import React from 'react';
 import Banner from './Banner.js'
 import Subtitle from './Subtitle.js'
 import Button from './Button.js'
+import TextInput from './TextInput.js'
 import ListButton from './ListButton.js'
 
 import ArrowsUpAndDown from './ArrowsUpAndDown.js'
@@ -29,6 +30,7 @@ function getDefaultMenu() {
                 {text:"CheckBox", rightComponent:'checkbox'},
                 {text:"list", type:'list', list:["elem 1", "elem 2", "elem 3"]},
                 {text:"Carcolor", rightComponent:"colorPicker", onColorChange:'function jsp'},
+                {type:"textInput", placeholder:"Ceci est un placeHolder", onChange:'function textChange'},
                 {text:"button"},
                 {text:"button2"},
                 {text:"button3"},
@@ -295,6 +297,8 @@ export default class Menu extends React.Component {
                     menu.push(<Button key={n} button={thisButton} exitDisableClickZone={exitDisableClickZone} enterDisableClickZone={enterDisableClickZone} canIClick={canIClick} onMouseOver={function () {setSelected(n)}}/>)
                 } else if (thisButton.type === "list") {
                     menu.push(<ListButton key={n} button={thisButton} enterDisableClickZone={enterDisableClickZone} exitDisableClickZone={exitDisableClickZone} canIClick={canIClick} onMouseOver={function () {setSelected(n)}}/>)
+                } else if (thisButton.type === "textInput") {
+                    menu.push(<TextInput key={n} button={thisButton} enterDisableClickZone={enterDisableClickZone} exitDisableClickZone={exitDisableClickZone} canIClick={canIClick} onMouseOver={function () {setSelected(n)}}/>)
                 }
             }
 

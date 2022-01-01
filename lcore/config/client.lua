@@ -1,6 +1,22 @@
 config.language = "fr"
 
-config.defaultPed = "a_m_o_soucent_01"
+config.defaultPed = "mp_m_freemode_01"
+config.defaultPedByGender = {
+    ["male"] = "mp_m_freemode_01",
+    ["female"] = "mp_f_freemode_01",
+}
+config.defaultHeadBlendData = {
+    ["shapeFather"] = 0,
+    ["shapeMother"] = 21,
+    ["ShapeThirdParent"] = 0,
+    ["ColorFather"] = 0,
+    ["ColorMother"] = 21,
+    ["ColorThirdParent"] = 0,
+    ["ShapeMix"] = 0.5,
+    ["ColorMix"] = 0.5,
+    ["ThirdMix"] = 0.0,
+}
+
 --config.defaultPos = {x=402.5164, y=-1002.847, z=-99.2587, h=50.0}
 config.defaultPos = { x = 411.528, y = -1024.557, z = 28.787, h = 237.2 }
 

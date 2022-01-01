@@ -6,7 +6,7 @@ AddEventHandler("lcore:getMyCharacters", function (token, data)
         local player = players:getPlayerFromSource(source)
         database:query("SELECT * FROM characters WHERE owner=?", {player.userAccount.id}, function (result)
             player.characters = result
-            return TriggerClientEvent("callback".."lcore:getMyCharacters", source, result, player:isAllowedToCreateNewChar())
+            return TriggerClientEvent("callback".."lcore:getMyCharacters", source, result, player:isAllowedToCreateNewChar(), player:isAllowedToUsePed())
         end)
     end
 end)
