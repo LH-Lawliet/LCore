@@ -3,6 +3,7 @@
 # dependencies
 lcore/ui/react/node_modules
 lcore/ui/react/.pnp
+node_modules
 .pnp.js
 
 # testing
