@@ -28,7 +28,7 @@ shared_scripts {
     'config/shared.lua',
     'debug/shared.lua',
     'utils/shared.lua',
-    'config/label.lua',
+    'config/label.lua'
 }
 
 client_scripts {
@@ -59,7 +59,7 @@ client_scripts {
     'weather/client.lua',
     'vehicle/client.lua',
 
-    'map/ipl.lua',
+    'map/ipl.lua'
 }
 
 server_scripts {
@@ -68,7 +68,7 @@ server_scripts {
     'crypto/bcrypt.js',
     'crypto/connector.lua',
 
-    'database/mysql.js',
+    'database/postgresql.js',
     'database/connector.lua',
     'utils/server.lua',
     'anticheat/server.lua',
@@ -81,7 +81,7 @@ server_scripts {
     'player/server.lua',
     'player/connection.lua',
 
-    'spawn/server.lua',
+    'spawn/server.lua'
 }
 
 

@@ -5438,4 +5438,68 @@ config.vehiclesInfo = {
         consumption = 4,
         importantWheel = 0
     },
+
+    ["-768236378"] = {
+        modelName = 'draugur',
+        fuelTypes = allFuel,
+        tankSize = 75,
+        consumption = 12.3,
+        importantWheel = 2
+    },
+
+    ["775514032"] = {
+        modelName = 'sm722',
+        fuelTypes = noDiesel,
+        tankSize = 50,
+        consumption = 8.2,
+        importantWheel = 2
+    },
+
+    ["-10917683"] = {
+        modelName = 'lm87',
+        fuelTypes = noDiesel,
+        tankSize = 45,
+        consumption = 8.9,
+        importantWheel = 2
+    },
+
+    ["-165394758"] = {
+        modelName = 'torero2',
+        fuelTypes = noDiesel,
+        tankSize = 65,
+        consumption = 7.5,
+        importantWheel = 2
+    },
+
+    ["-505223465"] = {
+        modelName = 'omnisegt',
+        fuelTypes = fullyElectric,
+        regeneration = true,
+        tankSize = 90,
+        consumption = 9.0,
+        importantWheel = 2
+    },
+
+    ["-477831899"] = {
+        modelName = 'conada',
+        fuelTypes = ethanolOnly,
+        tankSize = 400,
+        consumption = 758.1
+    },
+
+    ["40817712"] = {
+        modelName = 'greenwood',
+        fuelTypes = allFuel,
+        tankSize = 55,
+        consumption = 6.1,
+        importantWheel = 2
+    },
+
+    ["-754687673"] = {
+        modelName = 'corsita',
+        fuelTypes = ethanolOnly,
+        tankSize = 60,
+        consumption = 7.4,
+        importantWheel = 2
+    },
 }
